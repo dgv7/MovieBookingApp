@@ -13,6 +13,7 @@
 		DBFA3D112C4E2F7600879D62 /* MovieBookingApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DBFA3D0F2C4E2F7600879D62 /* MovieBookingApp.xcdatamodeld */; };
 		DBFA3D132C4E2F7700879D62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBFA3D122C4E2F7700879D62 /* Assets.xcassets */; };
 		DBFA3D162C4E2F7700879D62 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = DBFA3D152C4E2F7700879D62 /* Base */; };
+		E66C28132C4E433E00817406 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E66C28122C4E433E00817406 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E66C28132C4E433E00817406 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +85,9 @@
 			dependencies = (
 			);
 			name = MovieBookingApp;
+			packageProductDependencies = (
+				E66C28122C4E433E00817406 /* SnapKit */,
+			);
 			productName = MovieBookingApp;
 			productReference = DBFA3D032C4E2F7600879D62 /* MovieBookingApp.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +116,9 @@
 				Base,
 			);
 			mainGroup = DBFA3CFA2C4E2F7600879D62;
+			packageReferences = (
+				E66C28112C4E433E00817406 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = DBFA3D042C4E2F7600879D62 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -353,6 +361,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E66C28112C4E433E00817406 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E66C28122C4E433E00817406 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E66C28112C4E433E00817406 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		DBFA3D0F2C4E2F7600879D62 /* MovieBookingApp.xcdatamodeld */ = {

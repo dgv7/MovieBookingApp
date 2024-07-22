@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ABB37B3D2C4E69590053FD99 /* CollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB37B3C2C4E69590053FD99 /* CollectionTableViewCell.swift */; };
+		ABB37B412C4E697A0053FD99 /* MovieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB37B402C4E697A0053FD99 /* MovieViewController.swift */; };
+		CA352E1E2C4E36790058AB23 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA352E1D2C4E36790058AB23 /* LoginView.swift */; };
+		CA352E202C4E439E0058AB23 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA352E1F2C4E439E0058AB23 /* UserDefaults.swift */; };
+		CA352E232C4E44460058AB23 /* SingUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA352E222C4E44460058AB23 /* SingUp.swift */; };
+		CA352E2B2C4E497B0058AB23 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA352E2A2C4E497B0058AB23 /* MainViewController.swift */; };
 		DBFA3D072C4E2F7600879D62 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFA3D062C4E2F7600879D62 /* AppDelegate.swift */; };
 		DBFA3D092C4E2F7600879D62 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFA3D082C4E2F7600879D62 /* SceneDelegate.swift */; };
 		DBFA3D0B2C4E2F7600879D62 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFA3D0A2C4E2F7600879D62 /* ViewController.swift */; };
@@ -17,9 +23,16 @@
 		DBFA3D212C4EA7F600879D62 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFA3D202C4EA7F600879D62 /* MyPageView.swift */; };
 		DBFA3D232C4EA8E800879D62 /* MoviePosterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFA3D222C4EA8E800879D62 /* MoviePosterCell.swift */; };
 		DBFA3D252C4EA99100879D62 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFA3D242C4EA99100879D62 /* MyPageViewModel.swift */; };
+		E66C28132C4E433E00817406 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E66C28122C4E433E00817406 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		ABB37B3C2C4E69590053FD99 /* CollectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionTableViewCell.swift; sourceTree = "<group>"; };
+		ABB37B402C4E697A0053FD99 /* MovieViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewController.swift; sourceTree = "<group>"; };
+		CA352E1D2C4E36790058AB23 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		CA352E1F2C4E439E0058AB23 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		CA352E222C4E44460058AB23 /* SingUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingUp.swift; sourceTree = "<group>"; };
+		CA352E2A2C4E497B0058AB23 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DBFA3D032C4E2F7600879D62 /* MovieBookingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieBookingApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBFA3D062C4E2F7600879D62 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DBFA3D082C4E2F7600879D62 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -39,12 +52,33 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E66C28132C4E433E00817406 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		ABB37B392C4E69060053FD99 /* firstPage */ = {
+			isa = PBXGroup;
+			children = (
+				ABB37B3C2C4E69590053FD99 /* CollectionTableViewCell.swift */,
+				ABB37B402C4E697A0053FD99 /* MovieViewController.swift */,
+			);
+			path = firstPage;
+			sourceTree = "<group>";
+		};
+		CA352E212C4E43E50058AB23 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				CA352E1D2C4E36790058AB23 /* LoginView.swift */,
+				CA352E1F2C4E439E0058AB23 /* UserDefaults.swift */,
+				CA352E222C4E44460058AB23 /* SingUp.swift */,
+				CA352E2A2C4E497B0058AB23 /* MainViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		DBFA3CFA2C4E2F7600879D62 = {
 			isa = PBXGroup;
 			children = (
@@ -68,6 +102,8 @@
 				DBFA3D062C4E2F7600879D62 /* AppDelegate.swift */,
 				DBFA3D082C4E2F7600879D62 /* SceneDelegate.swift */,
 				DBFA3D0A2C4E2F7600879D62 /* ViewController.swift */,
+				CA352E212C4E43E50058AB23 /* Login */,
+				ABB37B392C4E69060053FD99 /* firstPage */,
 				DBFA3D122C4E2F7700879D62 /* Assets.xcassets */,
 				DBFA3D142C4E2F7700879D62 /* LaunchScreen.storyboard */,
 				DBFA3D172C4E2F7700879D62 /* Info.plist */,
@@ -103,6 +139,9 @@
 			dependencies = (
 			);
 			name = MovieBookingApp;
+			packageProductDependencies = (
+				E66C28122C4E433E00817406 /* SnapKit */,
+			);
 			productName = MovieBookingApp;
 			productReference = DBFA3D032C4E2F7600879D62 /* MovieBookingApp.app */;
 			productType = "com.apple.product-type.application";
@@ -131,6 +170,9 @@
 				Base,
 			);
 			mainGroup = DBFA3CFA2C4E2F7600879D62;
+			packageReferences = (
+				E66C28112C4E433E00817406 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = DBFA3D042C4E2F7600879D62 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -158,13 +200,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBFA3D1F2C4E6D7900879D62 /* MyPageViewController.swift in Sources */,
+				CA352E232C4E44460058AB23 /* SingUp.swift in Sources */,
 				DBFA3D0B2C4E2F7600879D62 /* ViewController.swift in Sources */,
+				CA352E1E2C4E36790058AB23 /* LoginView.swift in Sources */,
+				ABB37B3D2C4E69590053FD99 /* CollectionTableViewCell.swift in Sources */,
+				CA352E202C4E439E0058AB23 /* UserDefaults.swift in Sources */,
 				DBFA3D072C4E2F7600879D62 /* AppDelegate.swift in Sources */,
 				DBFA3D232C4EA8E800879D62 /* MoviePosterCell.swift in Sources */,
 				DBFA3D112C4E2F7600879D62 /* MovieBookingApp.xcdatamodeld in Sources */,
 				DBFA3D092C4E2F7600879D62 /* SceneDelegate.swift in Sources */,
 				DBFA3D212C4EA7F600879D62 /* MyPageView.swift in Sources */,
 				DBFA3D252C4EA99100879D62 /* MyPageViewModel.swift in Sources */,
+				CA352E2B2C4E497B0058AB23 /* MainViewController.swift in Sources */,
+				ABB37B412C4E697A0053FD99 /* MovieViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +425,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E66C28112C4E433E00817406 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E66C28122C4E433E00817406 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E66C28112C4E433E00817406 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		DBFA3D0F2C4E2F7600879D62 /* MovieBookingApp.xcdatamodeld */ = {

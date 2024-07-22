@@ -1,0 +1,78 @@
+//
+//  MoviewViewController.swift
+//  MovieBookingApp
+//
+//  Created by 김인규 on 7/22/24.
+//
+
+import UIKit
+
+import UIKit
+
+class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+
+    let tableView = UITableView()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = "영화 뭐보지?"
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(CollectionTableViewCell.self, forCellReuseIdentifier: "CollectionTableViewCell")
+        tableView.frame = view.bounds
+        view.addSubview(tableView)
+        
+        // 상위 공간 비울 때 사용
+//        tableView.translatesAutoresizingMaskIntoConstraints = false
+//               NSLayoutConstraint.activate([
+//                   tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+//                   tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//                   tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//                   tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+//               ])
+
+    }
+
+       func numberOfSections(in tableView: UITableView) -> Int {
+           return 3
+       }
+
+       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+           return 1
+       }
+
+       func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+           let cell = tableView.dequeueReusableCell(withIdentifier: "CollectionTableViewCell", for: indexPath) as! CollectionTableViewCell
+           cell.collectionView.tag = indexPath.section
+           cell.collectionView.reloadData()
+           return cell
+       }
+
+       func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+           return 200
+       }
+
+       func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+           switch section {
+           case 0:
+               return "Upcoming"
+           case 1:
+               return "Now Playing"
+           case 2:
+               return "Popular"
+           default:
+               return nil
+           }
+       }
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+          if let header = view as? UITableViewHeaderFooterView {
+              header.textLabel?.font = UIFont.boldSystemFont(ofSize: 24) // Customize the font size
+              header.textLabel?.textColor = .black // Customize the text color
+          }
+      }
+
+      func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+          return 44
+      }
+    
+   }

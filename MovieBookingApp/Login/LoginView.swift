@@ -73,18 +73,23 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func loginButtonTapped() {
-        guard let email = emailTextField.text, !email.isEmpty,
-              let password = passwordTextField.text, !password.isEmpty else {
-            // handle empty fields
-            return
-        }
+        let addPage = MovieViewController()
+        navigationController?.pushViewController(addPage, animated: true)
+        print("로그인 버튼 누름")
         
-        if let savedPassword = UserDefaultsManager.shared.getPassword(for: email), savedPassword == password {
-            navigateToMainView()
-        } else {
-            // handle incorrect credentials
-            print("Invalid email or password.")
-        }
+        
+//        guard let email = emailTextField.text, !email.isEmpty,
+//              let password = passwordTextField.text, !password.isEmpty else {
+//            // handle empty fields
+//            return
+//        }
+//        
+//        if let savedPassword = UserDefaultsManager.shared.getPassword(for: email), savedPassword == password {
+//            navigateToMainView()
+//        } else {
+//            // handle incorrect credentials
+//            print("Invalid email or password.")
+//        }
     }
     
     @objc private func signupButtonTapped() {

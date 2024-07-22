@@ -14,6 +14,9 @@
 		DBFA3D132C4E2F7700879D62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBFA3D122C4E2F7700879D62 /* Assets.xcassets */; };
 		DBFA3D162C4E2F7700879D62 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = DBFA3D152C4E2F7700879D62 /* Base */; };
 		DBFA3D1F2C4E6D7900879D62 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFA3D1E2C4E6D7900879D62 /* MyPageViewController.swift */; };
+		DBFA3D212C4EA7F600879D62 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFA3D202C4EA7F600879D62 /* MyPageView.swift */; };
+		DBFA3D232C4EA8E800879D62 /* MoviePosterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFA3D222C4EA8E800879D62 /* MoviePosterCell.swift */; };
+		DBFA3D252C4EA99100879D62 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFA3D242C4EA99100879D62 /* MyPageViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 		DBFA3D152C4E2F7700879D62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DBFA3D172C4E2F7700879D62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DBFA3D1E2C4E6D7900879D62 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		DBFA3D202C4EA7F600879D62 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		DBFA3D222C4EA8E800879D62 /* MoviePosterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePosterCell.swift; sourceTree = "<group>"; };
+		DBFA3D242C4EA99100879D62 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +80,9 @@
 			isa = PBXGroup;
 			children = (
 				DBFA3D1E2C4E6D7900879D62 /* MyPageViewController.swift */,
+				DBFA3D202C4EA7F600879D62 /* MyPageView.swift */,
+				DBFA3D222C4EA8E800879D62 /* MoviePosterCell.swift */,
+				DBFA3D242C4EA99100879D62 /* MyPageViewModel.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -151,8 +160,11 @@
 				DBFA3D1F2C4E6D7900879D62 /* MyPageViewController.swift in Sources */,
 				DBFA3D0B2C4E2F7600879D62 /* ViewController.swift in Sources */,
 				DBFA3D072C4E2F7600879D62 /* AppDelegate.swift in Sources */,
+				DBFA3D232C4EA8E800879D62 /* MoviePosterCell.swift in Sources */,
 				DBFA3D112C4E2F7600879D62 /* MovieBookingApp.xcdatamodeld in Sources */,
 				DBFA3D092C4E2F7600879D62 /* SceneDelegate.swift in Sources */,
+				DBFA3D212C4EA7F600879D62 /* MyPageView.swift in Sources */,
+				DBFA3D252C4EA99100879D62 /* MyPageViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,82 +1,3 @@
-//
-//  MoviewViewController.swift
-//  MovieBookingApp
-//
-//  Created by 김인규 on 7/22/24.
-//
-
-
-//import UIKit
-//
-//class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-//
-//    let tableView = UITableView()
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        self.title = "영화 뭐보지?"
-//        tableView.dataSource = self
-//        tableView.delegate = self
-//        tableView.register(CollectionTableViewCell.self, forCellReuseIdentifier: "CollectionTableViewCell")
-//        tableView.frame = view.bounds
-//        view.addSubview(tableView)
-//        
-//        // 상위 공간 비울 때 사용
-////        tableView.translatesAutoresizingMaskIntoConstraints = false
-////               NSLayoutConstraint.activate([
-////                   tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
-////                   tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-////                   tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-////                   tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-////               ])
-//
-//    }
-//
-//       func numberOfSections(in tableView: UITableView) -> Int {
-//           return 3
-//       }
-//
-//       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//           return 1
-//       }
-//
-//       func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//           let cell = tableView.dequeueReusableCell(withIdentifier: "CollectionTableViewCell", for: indexPath) as! CollectionTableViewCell
-//           cell.collectionView.tag = indexPath.section
-//           cell.collectionView.reloadData()
-//           return cell
-//       }
-//
-//       func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//           return 200
-//       }
-//
-//       func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//           switch section {
-//           case 0:
-//               return "Upcoming"
-//           case 1:
-//               return "Now Playing"
-//           case 2:
-//               return "Popular"
-//           default:
-//               return nil
-//           }
-//       }
-//    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-//          if let header = view as? UITableViewHeaderFooterView {
-//              header.textLabel?.font = UIFont.boldSystemFont(ofSize: 24) // Customize the font size
-//              header.textLabel?.textColor = .black // Customize the text color
-//          }
-//      }
-//
-//      func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//          return 44
-//      }
-//    
-//   }
-
-
 import UIKit
 
 class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -95,33 +16,33 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidLoad()
         self.title = "영화 뭐보지?"
 
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(CollectionTableViewCell.self, forCellReuseIdentifier: "CollectionTableViewCell")
-        tableView.frame = view.bounds
-        view.addSubview(tableView)
-
-        fetchMovies()
+        
         
         setupSegmentedControl()
         setupChildViewControllers()
-        setupTableView()
+        updateView()    // segment 변경시 페이지 전화
         
-        updateView()
+        fetchMovies()
+        setupTable()
+        
+        
     }
 // MARK: - yechan add
     private func setupSegmentedControl() {
             segmentedControl.selectedSegmentIndex = 0
             segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
+        
             segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        
             view.addSubview(segmentedControl)
             
             NSLayoutConstraint.activate([
-                segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+                segmentedControl.topAnchor.constraint(equalTo: view.topAnchor, constant: 8),
 //                segmentedControl.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -50),
                 segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
                 segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
             ])
+        
         }
         
         private func setupChildViewControllers() {
@@ -141,7 +62,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             myPageViewController.view.isHidden = true
         }
         
-        private func setupTableView() {
+        private func setupTable() {
             tableView.dataSource = self
             tableView.delegate = self
             tableView.register(CollectionTableViewCell.self, forCellReuseIdentifier: "CollectionTableViewCell")
@@ -149,11 +70,12 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             view.addSubview(tableView)
             
             NSLayoutConstraint.activate([
-                tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 8),
+                tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor),
                 tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
+            
         }
         
         @objc private func segmentChanged() {
@@ -174,11 +96,12 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
 
     private func fetchMovies() {
+        // DispatchGroup를 통해 여러 비동기 작업 그룹화
         let group = DispatchGroup()
 
-        group.enter()
+        group.enter()   // 작업 시작. 비동기 네트워크 요청시 enter 호출
         MovieService.shared.fetchMovies(endpoint: "upcoming") { movies in
-            self.upcomingMovies = movies ?? []
+            self.upcomingMovies = movies ?? []  // 데이터를 self.upcomingMovies에 할당
             group.leave()
         }
 
@@ -200,6 +123,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             group.leave()
         }
 
+        // 모든 그룹 작업 완료시 테이블 뷰 새로고침
         group.notify(queue: .main) {
             self.tableView.reloadData()
         }

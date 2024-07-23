@@ -7,6 +7,10 @@
 
 import Foundation
 
+struct MovieResponse: Decodable {
+    let results: [Movie]
+}
+
 struct Movie: Decodable {
     let id: Int
     let title: String
@@ -58,6 +62,4 @@ class MovieService {
     }
 }
 
-struct MovieResponse: Decodable {
-    let results: [Movie]
-}
+

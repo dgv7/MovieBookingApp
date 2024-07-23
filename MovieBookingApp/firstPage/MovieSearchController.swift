@@ -89,7 +89,7 @@ class MovieSearchController: UIViewController, UISearchBarDelegate, UICollection
         }
     }
     
-    // Fetch all movies from the API
+    // MARK: - 이부분은 MovieViewController와 충돌남.. 코드 수정 필요
 //    private func fetchAllMovies() {
 //        let apiKey = "a03d4de69feac73d515284c317000504"
 //        let urlString = "https://api.themoviedb.org/3/movie/popular?api_key=\(apiKey)&language=en-US&page=1"
@@ -116,7 +116,7 @@ class MovieSearchController: UIViewController, UISearchBarDelegate, UICollection
 //        }.resume()
 //    }
     
-    // UISearchBarDelegate method
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
             filteredMovies = allMovies
@@ -126,7 +126,7 @@ class MovieSearchController: UIViewController, UISearchBarDelegate, UICollection
         collectionView.reloadData()
     }
     
-    // UICollectionViewDataSource methods
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return filteredMovies.count
     }

@@ -81,6 +81,10 @@
 import UIKit
 
 class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    let segmentedControl = UISegmentedControl(items: ["List", "Search", "My Page"])
+    let searchViewController = MovieSearchController()
+    let myPageViewController = MyAccountController()
 
     let tableView = UITableView()
     var upcomingMovies: [Movie] = []
@@ -98,7 +102,75 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         view.addSubview(tableView)
 
         fetchMovies()
+        
+        setupSegmentedControl()
+        setupChildViewControllers()
+        setupTableView()
+        
+        updateView()
     }
+// MARK: - yechan add
+    private func setupSegmentedControl() {
+            segmentedControl.selectedSegmentIndex = 0
+            segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
+            segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(segmentedControl)
+            
+            NSLayoutConstraint.activate([
+                segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+                segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+                segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+            ])
+        }
+        
+        private func setupChildViewControllers() {
+            addChild(searchViewController)
+            addChild(myPageViewController)
+            
+            searchViewController.view.frame = view.bounds
+            myPageViewController.view.frame = view.bounds
+            
+            view.addSubview(searchViewController.view)
+            view.addSubview(myPageViewController.view)
+            
+            searchViewController.didMove(toParent: self)
+            myPageViewController.didMove(toParent: self)
+            
+            searchViewController.view.isHidden = true
+            myPageViewController.view.isHidden = true
+        }
+        
+        private func setupTableView() {
+            tableView.dataSource = self
+            tableView.delegate = self
+            tableView.register(CollectionTableViewCell.self, forCellReuseIdentifier: "CollectionTableViewCell")
+            tableView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(tableView)
+            
+            NSLayoutConstraint.activate([
+                tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 8),
+                tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+        }
+        
+        @objc private func segmentChanged() {
+            updateView()
+            syncSegmentedControl()
+        }
+        
+        func updateView() {
+            let index = segmentedControl.selectedSegmentIndex
+            tableView.isHidden = index != 0
+            searchViewController.view.isHidden = index != 1
+            myPageViewController.view.isHidden = index != 2
+        }
+        
+        private func syncSegmentedControl() {
+            searchViewController.segmentedControl.selectedSegmentIndex = segmentedControl.selectedSegmentIndex
+            myPageViewController.segmentedControl.selectedSegmentIndex = segmentedControl.selectedSegmentIndex
+        }
 
     private func fetchMovies() {
         let group = DispatchGroup()

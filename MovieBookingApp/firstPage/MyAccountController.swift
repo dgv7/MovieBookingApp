@@ -25,11 +25,12 @@ class MyAccountController: UIViewController {
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(segmentedControl)
         
-        NSLayoutConstraint.activate([
-            segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
-        ])
+        segmentedControl.snp.makeConstraints{
+               $0.centerX.equalToSuperview()
+               $0.top.equalToSuperview().offset(105)
+               $0.leading.equalToSuperview().offset(16)
+               $0.trailing.equalToSuperview().offset(-16)
+             }
     }
     
     @objc private func segmentChanged() {

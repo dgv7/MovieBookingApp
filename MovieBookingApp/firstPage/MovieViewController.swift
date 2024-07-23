@@ -16,7 +16,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidLoad()
         self.title = "영화 뭐보지?"
 
-        
+        view.backgroundColor = .white
         
         setupSegmentedControl()
         setupChildViewControllers()
@@ -36,12 +36,19 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         
             view.addSubview(segmentedControl)
             
-            NSLayoutConstraint.activate([
-                segmentedControl.topAnchor.constraint(equalTo: view.topAnchor, constant: 8),
-//                segmentedControl.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -50),
-                segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-                segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
-            ])
+//            NSLayoutConstraint.activate([
+//                segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+////                segmentedControl.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -50),
+//                segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+//                segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+//            ])
+        
+       segmentedControl.snp.makeConstraints{
+              $0.centerX.equalToSuperview()
+              $0.top.equalToSuperview().offset(105)
+              $0.leading.equalToSuperview().offset(16)
+              $0.trailing.equalToSuperview().offset(-16)
+            }
         
         }
         

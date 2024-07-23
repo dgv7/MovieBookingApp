@@ -8,8 +8,11 @@
 import UIKit
 
 class MovieCollectionCell: UICollectionViewCell {
+    
     let imageView = UIImageView()
     let titleLabel = UILabel()
+    
+    weak var parentViewController: MovieSearchController?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,4 +46,25 @@ class MovieCollectionCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        guard let parentViewController = parentViewController else { return }
+//        let movie : Movie
+////        let movie = parentViewController.upcomingMovies[indexPath.item]
+//        switch collectionView.tag {
+//        case 0:
+//            movie = parentViewController.upcomingMovies[indexPath.item]
+//        case 1:
+//            movie = parentViewController.nowPlayingMovies[indexPath.item]
+//        case 2:
+//            movie = parentViewController.popularMovies[indexPath.item]
+//        case 3:
+//            movie = parentViewController.topRatedMovies[indexPath.item]
+//        default:
+//            return
+//        }
+//        let detailVC = MovieDetailViewController(movie: movie)
+//        parentViewController.navigationController?.pushViewController(detailVC, animated: true)
+//    }
+    
 }

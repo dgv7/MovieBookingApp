@@ -44,7 +44,7 @@ class MovieDetailViewController: UIViewController {
         overviewLabel.numberOfLines = 0
         overviewLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        bookingButton.setTitle("Login", for: .normal)
+        bookingButton.setTitle("예매하기", for: .normal)
         bookingButton.backgroundColor = .blue
         bookingButton.layer.cornerRadius = 10
         bookingButton.translatesAutoresizingMaskIntoConstraints = false
@@ -70,7 +70,7 @@ class MovieDetailViewController: UIViewController {
             overviewLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             overviewLabel.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -16),
             
-            bookingButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
+            bookingButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),
             bookingButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             bookingButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])

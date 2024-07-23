@@ -5,8 +5,7 @@
 //  Created by 김인규 on 7/22/24.
 //
 
-//import UIKit
-//
+
 //import UIKit
 //
 //class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -90,6 +89,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     var upcomingMovies: [Movie] = []
     var nowPlayingMovies: [Movie] = []
     var popularMovies: [Movie] = []
+    var topRatedMovies: [Movie] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,6 +118,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             
             NSLayoutConstraint.activate([
                 segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+//                segmentedControl.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -50),
                 segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
                 segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
             ])
@@ -192,6 +193,12 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.popularMovies = movies ?? []
             group.leave()
         }
+        
+        group.enter()
+        MovieService.shared.fetchMovies(endpoint: "top_rated") { movies in
+            self.topRatedMovies = movies ?? []
+            group.leave()
+        }
 
         group.notify(queue: .main) {
             self.tableView.reloadData()
@@ -199,7 +206,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -226,6 +233,8 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             return "Now Playing"
         case 2:
             return "Popular"
+        case 3:
+            return "Top Rated"
         default:
             return nil
         }

@@ -139,6 +139,8 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource, UICo
             return parentViewController.nowPlayingMovies.count
         case 2:
             return parentViewController.popularMovies.count
+        case 3:
+            return parentViewController.topRatedMovies.count
         default:
             return 0
         }
@@ -155,6 +157,8 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource, UICo
             movie = parentViewController.nowPlayingMovies[indexPath.item]
         case 2:
             movie = parentViewController.popularMovies[indexPath.item]
+        case 3:
+            movie = parentViewController.topRatedMovies[indexPath.item]
         default:
             return cell
         }
@@ -176,6 +180,8 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource, UICo
             movie = parentViewController.nowPlayingMovies[indexPath.item]
         case 2:
             movie = parentViewController.popularMovies[indexPath.item]
+        case 3:
+            movie = parentViewController.topRatedMovies[indexPath.item]
         default:
             return
         }

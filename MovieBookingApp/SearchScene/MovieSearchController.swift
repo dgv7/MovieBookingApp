@@ -83,9 +83,10 @@ class MovieSearchController: UIViewController, UISearchBarDelegate, UICollection
         view.addSubview(searchBar)
         
         NSLayoutConstraint.activate([
-            searchBar.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 8),
+            searchBar.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 20),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            searchBar.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
     
@@ -95,7 +96,7 @@ class MovieSearchController: UIViewController, UISearchBarDelegate, UICollection
         view.addSubview(collectionView)
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 8),
+            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)

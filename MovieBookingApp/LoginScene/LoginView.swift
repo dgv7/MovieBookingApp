@@ -75,7 +75,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @objc private func loginButtonTapped() {
         let addPage = MovieViewController()
         navigationController?.pushViewController(addPage, animated: true)
-        print("로그인 버튼 누름")
         
         
 //        guard let email = emailTextField.text, !email.isEmpty,

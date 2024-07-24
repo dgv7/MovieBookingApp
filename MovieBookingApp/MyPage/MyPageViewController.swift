@@ -21,6 +21,7 @@ class MyPageViewController: UIViewController {
         setupBindings()
         myPageView.bookingCollectionView.dataSource = self
         myPageView.wantedMoviesCollectionView.dataSource = self
+        fetchData()
     }
     
     private func setupBindings() {
@@ -39,6 +40,19 @@ class MyPageViewController: UIViewController {
     
     @objc private func editPassword() {
         // 비밀번호 편집 로직
+    }
+    
+    private func fetchData() {
+        viewModel.fetchBookedMovies {
+            DispatchQueue.main.async {
+                self.myPageView.bookingCollectionView.reloadData()
+            }
+        }
+        viewModel.fetchWantedMovies {
+            DispatchQueue.main.async {
+                self.myPageView.wantedMoviesCollectionView.reloadData()
+            }
+        }
     }
 }
 

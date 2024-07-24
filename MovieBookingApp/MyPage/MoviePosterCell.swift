@@ -56,7 +56,18 @@ class MoviePosterCell: UICollectionViewCell {
     }
     
     func configure(with movie: Movie) {
-        posterImageView.image = UIImage(named: movie.posterName)
         titleLabel.text = movie.title
+        let imageUrl = "https://image.tmdb.org/t/p/w500\(movie.posterPath)"
+        if let url = URL(string: imageUrl) {
+            // Load image asynchronously
+            DispatchQueue.global().async {
+                if let data = try? Data(contentsOf: url) {
+                    let image = UIImage(data: data)
+                    DispatchQueue.main.async {
+                        self.posterImageView.image = image
+                    }
+                }
+            }
+        }
     }
 }

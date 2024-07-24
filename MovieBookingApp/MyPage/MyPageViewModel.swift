@@ -7,26 +7,26 @@
 
 import Foundation
 
-struct Movie {
-    let posterName: String
-    let title: String
-}
-
 class MyPageViewModel {
     
-    let bookedMovies: [Movie] = [
-        Movie(posterName: "poster1", title: "Title 1"),
-        Movie(posterName: "poster2", title: "Title 2"),
-        Movie(posterName: "poster3", title: "Title 3"),
-        Movie(posterName: "poster4", title: "Title 4"),
-        Movie(posterName: "poster5", title: "Title 5")
-    ]
+    var bookedMovies: [Movie] = []
+    var wantedMovies: [Movie] = []
     
-    let wantedMovies: [Movie] = [
-        Movie(posterName: "poster6", title: "Title 6"),
-        Movie(posterName: "poster7", title: "Title 7"),
-        Movie(posterName: "poster8", title: "Title 8"),
-        Movie(posterName: "poster9", title: "Title 9"),
-        Movie(posterName: "poster10", title: "Title 10")
-    ]
+    func fetchBookedMovies(completion: @escaping () -> Void) {
+        MovieService.shared.fetchMovies(endpoint: "upcoming") { movies in
+            if let movies = movies {
+                self.bookedMovies = movies
+            }
+            completion()
+        }
+    }
+    
+    func fetchWantedMovies(completion: @escaping () -> Void) {
+        MovieService.shared.fetchMovies(endpoint: "popular") { movies in
+            if let movies = movies {
+                self.wantedMovies = movies
+            }
+            completion()
+        }
+    }
 }

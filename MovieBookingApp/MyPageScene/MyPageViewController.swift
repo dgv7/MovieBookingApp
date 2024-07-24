@@ -2,6 +2,8 @@ import UIKit
 
 class MyPageViewController: UIViewController {
     
+//    var email: String?
+    
     private let myPageView = MyPageView()
     private let viewModel = MyPageViewModel()
     
@@ -19,6 +21,8 @@ class MyPageViewController: UIViewController {
         fetchData()
 
         setupSegmentedControl()
+        
+        displayUserInfo()
 
     }
     
@@ -75,7 +79,19 @@ class MyPageViewController: UIViewController {
         }
     }
     
+    private func displayUserInfo() {
+        if let email = UserDefaultsManager.shared.getEmail(),
+           let nickname = UserDefaultsManager.shared.getNickname(for: email) {
+            myPageView.emailValueLabel.text = "\(email)"    // 로그인 email을 기준으로한 nickname 값 가져오기
+            myPageView.nameValueLabel.text = "\(nickname)님"
+        } else {
+            myPageView.emailValueLabel.text = "email 값 없음"
+            myPageView.nameValueLabel.text = "nickname 값 없음"
+        }
+    }
+
 }
+
 
 extension MyPageViewController: UICollectionViewDataSource {
     

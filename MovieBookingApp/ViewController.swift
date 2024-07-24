@@ -157,7 +157,6 @@ class ViewController: UIViewController {
         let completionAlert = UIAlertController(title: "결제 완료", message: "결제가 완료되었습니다.", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default) { _ in
             // 화면 전환 코드
-            let movieViewController = MovieViewController()
             self.navigationController?.popViewController(animated: true)
         }
         completionAlert.addAction(okAction)

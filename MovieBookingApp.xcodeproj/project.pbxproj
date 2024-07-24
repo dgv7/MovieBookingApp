@@ -16,7 +16,6 @@
 		CA352E1E2C4E36790058AB23 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA352E1D2C4E36790058AB23 /* LoginView.swift */; };
 		CA352E202C4E439E0058AB23 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA352E1F2C4E439E0058AB23 /* UserDefaults.swift */; };
 		CA352E232C4E44460058AB23 /* SingUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA352E222C4E44460058AB23 /* SingUp.swift */; };
-		CA352E2B2C4E497B0058AB23 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA352E2A2C4E497B0058AB23 /* MainViewController.swift */; };
 		DBFA3D072C4E2F7600879D62 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFA3D062C4E2F7600879D62 /* AppDelegate.swift */; };
 		DBFA3D092C4E2F7600879D62 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFA3D082C4E2F7600879D62 /* SceneDelegate.swift */; };
 		DBFA3D0B2C4E2F7600879D62 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFA3D0A2C4E2F7600879D62 /* ViewController.swift */; };
@@ -40,7 +39,6 @@
 		CA352E1D2C4E36790058AB23 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		CA352E1F2C4E439E0058AB23 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		CA352E222C4E44460058AB23 /* SingUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingUp.swift; sourceTree = "<group>"; };
-		CA352E2A2C4E497B0058AB23 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DBFA3D032C4E2F7600879D62 /* MovieBookingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieBookingApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBFA3D062C4E2F7600879D62 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DBFA3D082C4E2F7600879D62 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -100,7 +98,6 @@
 				CA352E1D2C4E36790058AB23 /* LoginView.swift */,
 				CA352E1F2C4E439E0058AB23 /* UserDefaults.swift */,
 				CA352E222C4E44460058AB23 /* SingUp.swift */,
-				CA352E2A2C4E497B0058AB23 /* MainViewController.swift */,
 			);
 			path = LoginScene;
 			sourceTree = "<group>";
@@ -241,7 +238,6 @@
 				DBFA3D092C4E2F7600879D62 /* SceneDelegate.swift in Sources */,
 				DBFA3D212C4EA7F600879D62 /* MyPageView.swift in Sources */,
 				DBFA3D252C4EA99100879D62 /* MyPageViewModel.swift in Sources */,
-				CA352E2B2C4E497B0058AB23 /* MainViewController.swift in Sources */,
 				C72BFAFF2C4F322A00D1ABFB /* MovieDetailController.swift in Sources */,
 				C72BFAFD2C4F313000D1ABFB /* MovieService.swift in Sources */,
 				ABB37B412C4E697A0053FD99 /* MovieViewController.swift in Sources */,
@@ -388,7 +384,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 33954TLTAK;
+				DEVELOPMENT_TEAM = M9DA7S3XQP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MovieBookingApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -415,7 +411,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 33954TLTAK;
+				DEVELOPMENT_TEAM = M9DA7S3XQP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MovieBookingApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

@@ -8,6 +8,8 @@
 import UIKit
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
+    
+    let signupViewController = SignupViewController()
 
     private let emailTextField = UITextField()
     private let passwordTextField = UITextField()
@@ -73,33 +75,32 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func loginButtonTapped() {
-        let addPage = MovieViewController()
-        navigationController?.pushViewController(addPage, animated: true)
         
-        
-//        guard let email = emailTextField.text, !email.isEmpty,
-//              let password = passwordTextField.text, !password.isEmpty else {
-//            // handle empty fields
-//            return
-//        }
-//        
-//        if let savedPassword = UserDefaultsManager.shared.getPassword(for: email), savedPassword == password {
-//            navigateToMainView()
-//        } else {
-//            // handle incorrect credentials
-//            print("Invalid email or password.")
-//        }
+        // 입력값 여부 확인
+        guard let email = emailTextField.text, !email.isEmpty,
+              let password = passwordTextField.text, !password.isEmpty else {
+            return
+        }
+        // 데이터 저장 후 뷰 전환
+        if let savedPassword = UserDefaultsManager.shared.getPassword(for: email), savedPassword == password {
+            
+//            UserDefaultsManager.shared.saveCredentials(email: email, password: password, nickname: "nickname")
+            
+//            let myPageVC = MyPageViewController()
+//            myPageVC.email = email
+
+            let nextPage = MovieViewController()
+            navigationController?.pushViewController(nextPage, animated: true)
+        } else {
+            // handle incorrect credentials
+            print("Invalid email or password.")
+        }
     }
     
     @objc private func signupButtonTapped() {
         let signupVC = SignupViewController()
         signupVC.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(signupVC, animated: true)
-    }
-    
-    private func navigateToMainView() {
-        let mainVC = MainViewController()
-        navigationController?.pushViewController(mainVC, animated: true)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -115,7 +116,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
         return !containsKorean(text: string)
     }
-    
+    // 한국어 입력 금지
     private func containsKorean(text: String) -> Bool {
         for scalar in text.unicodeScalars {
             if (scalar.value >= 0xAC00 && scalar.value <= 0xD7AF) {

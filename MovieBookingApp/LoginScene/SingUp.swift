@@ -9,9 +9,9 @@ import UIKit
 
 class SignupViewController: UIViewController, UITextFieldDelegate {
 
-    private let emailTextField = UITextField()
-    private let passwordTextField = UITextField()
-    private let nicknameTextField = UITextField()
+    let emailTextField = UITextField()
+    let passwordTextField = UITextField()
+    let nicknameTextField = UITextField()
     private let signupButton = UIButton()
     private let errorMessageLabel = UILabel()
 
@@ -84,7 +84,8 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     
     @objc private func signupButtonTapped() {
         guard let email = emailTextField.text, !email.isEmpty,
-              let password = passwordTextField.text, !password.isEmpty else {
+              let password = passwordTextField.text, !password.isEmpty,
+                let nickname = nicknameTextField.text, !nickname.isEmpty else {
             errorMessageLabel.text = "Email and Password are required."
             return
         }
@@ -95,7 +96,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         }
         
         // 회원가입 로직
-        UserDefaultsManager.shared.saveCredentials(email: email, password: password)
+        UserDefaultsManager.shared.saveCredentials(email: email, password: password, nickname: nickname)
         navigationController?.popViewController(animated: true)
     }
     

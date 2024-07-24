@@ -8,8 +8,11 @@
 import UIKit
 
 class MovieCollectionCell: UICollectionViewCell {
+    
     let imageView = UIImageView()
     let titleLabel = UILabel()
+    
+    weak var parentViewController: MovieSearchController?
     
     override init(frame: CGRect) {
         super.init(frame: frame)

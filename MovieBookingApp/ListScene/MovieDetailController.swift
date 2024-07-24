@@ -77,14 +77,14 @@ class MovieDetailViewController: UIViewController {
     }
 
     private func configure(with movie: Movie) {
-        let imageUrl = URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath)")
+        let imageUrl = URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "")")
         imageView.load(url: imageUrl)
         titleLabel.text = movie.title
         overviewLabel.text = movie.overview
     }
     
     @objc private func bookingButtonTapped() {
-        let bookingVC = ViewController()
+        let bookingVC = ViewController(movie: movie)
         navigationController?.pushViewController(bookingVC, animated: true)
     }
     

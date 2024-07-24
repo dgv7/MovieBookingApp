@@ -1,10 +1,3 @@
-//
-//  MyPageViewModel.swift
-//  MovieBookingApp
-//
-//  Created by 김동건 on 7/22/24.
-//
-
 import Foundation
 
 class MyPageViewModel {

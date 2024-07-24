@@ -69,17 +69,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		ABB37B392C4E69060053FD99 /* firstPage */ = {
+		ABB37B392C4E69060053FD99 /* ListScene */ = {
 			isa = PBXGroup;
 			children = (
-				ABB37B3C2C4E69590053FD99 /* CollectionTableViewCell.swift */,
 				ABB37B402C4E697A0053FD99 /* MovieViewController.swift */,
+				ABB37B3C2C4E69590053FD99 /* CollectionTableViewCell.swift */,
 				C72BFAFE2C4F322A00D1ABFB /* MovieDetailController.swift */,
-				C72BFB042C4F3A9200D1ABFB /* MovieSearchController.swift */,
-				C72BFB082C4F4A5A00D1ABFB /* MovieCollectionCell.swift */,
-				C72BFB062C4F3AAD00D1ABFB /* MyAccountController.swift */,
 			);
-			path = firstPage;
+			path = ListScene;
 			sourceTree = "<group>";
 		};
 		C72BFB0A2C4F6F8800D1ABFB /* Network */ = {
@@ -90,7 +87,24 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		CA352E212C4E43E50058AB23 /* Login */ = {
+		C78E87F22C4FC6CD002B2B64 /* SearchScene */ = {
+			isa = PBXGroup;
+			children = (
+				C72BFB042C4F3A9200D1ABFB /* MovieSearchController.swift */,
+				C72BFB082C4F4A5A00D1ABFB /* MovieCollectionCell.swift */,
+			);
+			path = SearchScene;
+			sourceTree = "<group>";
+		};
+		C78E87F32C4FC708002B2B64 /* AccountScene */ = {
+			isa = PBXGroup;
+			children = (
+				C72BFB062C4F3AAD00D1ABFB /* MyAccountController.swift */,
+			);
+			path = AccountScene;
+			sourceTree = "<group>";
+		};
+		CA352E212C4E43E50058AB23 /* LoginScene */ = {
 			isa = PBXGroup;
 			children = (
 				CA352E1D2C4E36790058AB23 /* LoginView.swift */,
@@ -98,7 +112,7 @@
 				CA352E222C4E44460058AB23 /* SingUp.swift */,
 				CA352E2A2C4E497B0058AB23 /* MainViewController.swift */,
 			);
-			path = Login;
+			path = LoginScene;
 			sourceTree = "<group>";
 		};
 		DBFA3CFA2C4E2F7600879D62 = {
@@ -120,12 +134,14 @@
 		DBFA3D052C4E2F7600879D62 /* MovieBookingApp */ = {
 			isa = PBXGroup;
 			children = (
-				DBFA3D1D2C4E6D6600879D62 /* MyPage */,
 				DBFA3D062C4E2F7600879D62 /* AppDelegate.swift */,
 				DBFA3D082C4E2F7600879D62 /* SceneDelegate.swift */,
 				DBFA3D0A2C4E2F7600879D62 /* ViewController.swift */,
-				CA352E212C4E43E50058AB23 /* Login */,
-				ABB37B392C4E69060053FD99 /* firstPage */,
+				CA352E212C4E43E50058AB23 /* LoginScene */,
+				ABB37B392C4E69060053FD99 /* ListScene */,
+				C78E87F22C4FC6CD002B2B64 /* SearchScene */,
+				C78E87F32C4FC708002B2B64 /* AccountScene */,
+				DBFA3D1D2C4E6D6600879D62 /* MyPage */,
 				C72BFB0A2C4F6F8800D1ABFB /* Network */,
 				DBFA3D122C4E2F7700879D62 /* Assets.xcassets */,
 				DBFA3D142C4E2F7700879D62 /* LaunchScreen.storyboard */,
@@ -222,7 +238,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-
 				C72BFB092C4F4A5A00D1ABFB /* MovieCollectionCell.swift in Sources */,
 				DBFA3D1F2C4E6D7900879D62 /* MyPageViewController.swift in Sources */,
 				CA352E232C4E44460058AB23 /* SingUp.swift in Sources */,

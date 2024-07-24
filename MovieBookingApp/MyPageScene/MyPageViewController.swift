@@ -17,11 +17,9 @@ class MyPageViewController: UIViewController {
         myPageView.bookingCollectionView.dataSource = self
         myPageView.wantedMoviesCollectionView.dataSource = self
         fetchData()
-<<<<<<< HEAD
-=======
-        
+
         setupSegmentedControl()
->>>>>>> searchPage
+
     }
     
     private func setupBindings() {
@@ -54,8 +52,7 @@ class MyPageViewController: UIViewController {
             }
         }
     }
-<<<<<<< HEAD
-=======
+
         
     private func setupSegmentedControl() {
         segmentedControl.selectedSegmentIndex = 2
@@ -78,7 +75,6 @@ class MyPageViewController: UIViewController {
         }
     }
     
->>>>>>> searchPage
 }
 
 extension MyPageViewController: UICollectionViewDataSource {

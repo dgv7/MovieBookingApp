@@ -51,11 +51,8 @@ class MoviePosterCell: UICollectionViewCell {
     
     func configure(with movie: Movie) {
         titleLabel.text = movie.title
-<<<<<<< HEAD
-        let imageUrl = "https://image.tmdb.org/t/p/w500\(movie.posterPath)"
-=======
         let imageUrl = "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "")"
->>>>>>> searchPage
+
         if let url = URL(string: imageUrl) {
             // Load image asynchronously
             DispatchQueue.global().async {

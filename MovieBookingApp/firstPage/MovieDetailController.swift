@@ -84,9 +84,8 @@ class MovieDetailViewController: UIViewController {
     }
     
     @objc private func bookingButtonTapped() {
-        let bookingVC = ViewController()
+        let bookingVC = ViewController(movie: movie)
         navigationController?.pushViewController(bookingVC, animated: true)
     }
-    
 }
 

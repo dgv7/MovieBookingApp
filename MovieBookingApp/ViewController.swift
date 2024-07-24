@@ -1,18 +1,10 @@
-//
-//  ViewController.swift
-//  MovieBookingApp
-//
-//  Created by 김동건 on 7/22/24.
-//
-
 import UIKit
 import SnapKit
 
 class ViewController: UIViewController {
+    var movie: Movie
     
     let titleLabel = UILabel()
-    let movieNameLabel = UILabel()
-    let movieNameTextField = UITextField()
     let dateLabel = UILabel()
     let datePicker = UIDatePicker()
     let peopleLabel = UILabel()
@@ -21,28 +13,40 @@ class ViewController: UIViewController {
     let totalPriceLabel = UILabel()
     let payButton = UIButton()
     
+    let imageView = UIImageView()
+    let reserveMoveNameLabel = UILabel()
+    
+    init(movie: Movie) {
+        self.movie = movie
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupViews()
         setupConstraints()
+        configureUI(with: movie)
     }
     
-    func setupViews() {
+    private func setupViews() {
+        imageView.backgroundColor = .black
+        imageView.contentMode = .scaleAspectFill
+        view.addSubview(imageView)
+        
+        reserveMoveNameLabel.textColor = .black
+        reserveMoveNameLabel.font = .boldSystemFont(ofSize: 15)
+        reserveMoveNameLabel.numberOfLines = 0
+        view.addSubview(reserveMoveNameLabel)
         
         titleLabel.text = "예매하기"
-        titleLabel.font = .boldSystemFont(ofSize: 35)
+        titleLabel.font = .boldSystemFont(ofSize: 30)
         view.addSubview(titleLabel)
         
-        // Movie Name
-        movieNameLabel.text = "영화명"
-        movieNameLabel.font = .boldSystemFont(ofSize: 17)
-        view.addSubview(movieNameLabel)
-        
-        movieNameTextField.borderStyle = .roundedRect
-        view.addSubview(movieNameTextField)
-        
-        // Date
         dateLabel.text = "날짜"
         dateLabel.font = .boldSystemFont(ofSize: 17)
         view.addSubview(dateLabel)
@@ -50,7 +54,6 @@ class ViewController: UIViewController {
         datePicker.datePickerMode = .date
         view.addSubview(datePicker)
         
-        // People
         peopleLabel.text = "인원"
         peopleLabel.font = .boldSystemFont(ofSize: 17)
         view.addSubview(peopleLabel)
@@ -64,12 +67,10 @@ class ViewController: UIViewController {
         peopleStepper.addTarget(self, action: #selector(peopleStepperChanged), for: .valueChanged)
         view.addSubview(peopleStepper)
         
-        // Total Price
         totalPriceLabel.text = "총 가격: 10,000원"
         totalPriceLabel.font = .boldSystemFont(ofSize: 20)
         view.addSubview(totalPriceLabel)
         
-        // Pay Button
         payButton.setTitle("결제하기", for: .normal)
         payButton.backgroundColor = UIColor.blue.withAlphaComponent(0.2)
         payButton.setTitleColor(.black, for: .normal)
@@ -78,27 +79,25 @@ class ViewController: UIViewController {
     }
     
     func setupConstraints() {
-        
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.equalTo(view).offset(20)
         }
         
-        movieNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(80)
-            make.leading.equalTo(view).offset(20)
+        imageView.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(40)
+            $0.centerX.equalToSuperview()
+            $0.height.width.equalTo(150)
         }
         
-        movieNameTextField.snp.makeConstraints { make in
-            make.top.equalTo(movieNameLabel.snp.bottom).offset(10)
-            make.leading.equalTo(movieNameLabel)
-            make.trailing.equalTo(view).offset(-20)
-            make.height.equalTo(40)
+        reserveMoveNameLabel.snp.makeConstraints {
+            $0.top.equalTo(imageView.snp.bottom).offset(40)
+            $0.centerX.equalTo(imageView)
         }
         
         dateLabel.snp.makeConstraints { make in
-            make.top.equalTo(movieNameTextField.snp.bottom).offset(40)
-            make.leading.equalTo(movieNameLabel)
+            make.top.equalTo(reserveMoveNameLabel.snp.bottom).offset(40)
+            make.leading.equalTo(view).offset(20)
         }
         
         datePicker.snp.makeConstraints { make in
@@ -109,7 +108,7 @@ class ViewController: UIViewController {
         
         peopleLabel.snp.makeConstraints { make in
             make.top.equalTo(datePicker.snp.bottom).offset(40)
-            make.leading.equalTo(movieNameLabel)
+            make.leading.equalTo(view).offset(20)
         }
         
         peopleCountLabel.snp.makeConstraints { make in
@@ -156,9 +155,19 @@ class ViewController: UIViewController {
     
     func showCompletionAlert() {
         let completionAlert = UIAlertController(title: "결제 완료", message: "결제가 완료되었습니다.", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            // 화면 전환 코드
+            let movieViewController = MovieViewController()
+            self.navigationController?.popViewController(animated: true)
+        }
         completionAlert.addAction(okAction)
         
         present(completionAlert, animated: true, completion: nil)
+    }
+    
+    private func configureUI(with movie: Movie) {
+        let imageUrl = URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath)")
+        imageView.load(url: imageUrl)
+        reserveMoveNameLabel.text = "영화명: \(movie.title)"
     }
 }

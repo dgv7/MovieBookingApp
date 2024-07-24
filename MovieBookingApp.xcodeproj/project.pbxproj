@@ -100,7 +100,6 @@
 			isa = PBXGroup;
 			children = (
 				C72BFB062C4F3AAD00D1ABFB /* MyAccountController.swift */,
-				DBFA3D1D2C4E6D6600879D62 /* MyPage */,
 			);
 			path = AccountScene;
 			sourceTree = "<group>";
@@ -142,6 +141,7 @@
 				ABB37B392C4E69060053FD99 /* ListScene */,
 				C78E87F22C4FC6CD002B2B64 /* SearchScene */,
 				C78E87F32C4FC708002B2B64 /* AccountScene */,
+				DBFA3D1D2C4E6D6600879D62 /* MyPage */,
 				C72BFB0A2C4F6F8800D1ABFB /* Network */,
 				DBFA3D122C4E2F7700879D62 /* Assets.xcassets */,
 				DBFA3D142C4E2F7700879D62 /* LaunchScreen.storyboard */,

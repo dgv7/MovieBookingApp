@@ -5,6 +5,8 @@ class MyPageViewController: UIViewController {
     private let myPageView = MyPageView()
     private let viewModel = MyPageViewModel()
     
+    let segmentedControl = UISegmentedControl(items: ["List", "Search", "My Page"])
+    
     override func loadView() {
         view = myPageView
     }
@@ -15,6 +17,8 @@ class MyPageViewController: UIViewController {
         myPageView.bookingCollectionView.dataSource = self
         myPageView.wantedMoviesCollectionView.dataSource = self
         fetchData()
+        
+        setupSegmentedControl()
     }
     
     private func setupBindings() {
@@ -47,6 +51,28 @@ class MyPageViewController: UIViewController {
             }
         }
     }
+        
+    private func setupSegmentedControl() {
+        segmentedControl.selectedSegmentIndex = 2
+        segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(segmentedControl)
+        
+        segmentedControl.snp.makeConstraints{
+               $0.centerX.equalToSuperview()
+               $0.top.equalToSuperview().offset(105)
+               $0.leading.equalToSuperview().offset(16)
+               $0.trailing.equalToSuperview().offset(-16)
+             }
+    }
+    
+    @objc private func segmentChanged() {
+        if let parentVC = parent as? MovieViewController {
+            parentVC.segmentedControl.selectedSegmentIndex = segmentedControl.selectedSegmentIndex
+            parentVC.updateView()
+        }
+    }
+    
 }
 
 extension MyPageViewController: UICollectionViewDataSource {

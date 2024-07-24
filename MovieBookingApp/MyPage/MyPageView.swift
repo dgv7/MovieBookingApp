@@ -142,7 +142,7 @@ class MyPageView: UIView {
         wantedMoviesCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            infoStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
+            infoStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 80),
             infoStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             infoStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             

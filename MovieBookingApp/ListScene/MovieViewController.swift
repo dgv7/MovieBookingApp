@@ -4,7 +4,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     let segmentedControl = UISegmentedControl(items: ["List", "Search", "My Page"])
     let searchViewController = MovieSearchController()
-    let myPageViewController = MyAccountController()
+    let myPageViewController = MyPageViewController()
     
     let tableView = UITableView()
     var upcomingMovies: [Movie] = []

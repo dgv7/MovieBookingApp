@@ -16,6 +16,8 @@ class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBindings()
+//        myPageView.bookingCollectionView.delegate = self
+//        myPageView.wantedMoviesCollectionView.delegate = self
         myPageView.bookingCollectionView.dataSource = self
         myPageView.wantedMoviesCollectionView.dataSource = self
         fetchData()
@@ -56,7 +58,6 @@ class MyPageViewController: UIViewController {
             }
         }
     }
-
         
     private func setupSegmentedControl() {
         segmentedControl.selectedSegmentIndex = 2
@@ -89,6 +90,11 @@ class MyPageViewController: UIViewController {
             myPageView.nameValueLabel.text = "nickname 값 없음"
         }
     }
+    
+    private func displayBookings() {
+        guard let email = UserDefaultsManager.shared.getEmail() else { return }
+        let bookings = UserDefaultsManager.shared.getBookings(for: email)
+    }
 
 }
 
@@ -106,8 +112,8 @@ extension MyPageViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviePosterCell.identifier, for: indexPath) as! MoviePosterCell
         if collectionView == myPageView.bookingCollectionView {
-            let movie = viewModel.bookedMovies[indexPath.item]
-            cell.configure(with: movie)
+            let booking = viewModel.bookedMovies[indexPath.item]
+            cell.configure(with: booking)
         } else {
             let movie = viewModel.wantedMovies[indexPath.item]
             cell.configure(with: movie)
@@ -115,3 +121,16 @@ extension MyPageViewController: UICollectionViewDataSource {
         return cell
     }
 }
+
+//extension MyPageViewController: UICollectionViewDelegate {
+//    
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        if collectionView == myPageView.bookingCollectionView {
+//            let booking = viewModel.bookedMovies[indexPath.item]
+//            let detailVC = BookingDetailViewController(booking: booking)
+//            navigationController?.pushViewController(detailVC, animated: true)
+//        } else {
+//            // handle wantedMovies selection if needed
+//        }
+//    }
+//}

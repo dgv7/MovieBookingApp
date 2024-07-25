@@ -18,9 +18,11 @@ class SeatSelectionViewController: UIViewController {
     seatCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     super.init(nibName: nil, bundle: nil)
   }
+    
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+    
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
@@ -90,12 +92,14 @@ extension SeatSelectionViewController: UICollectionViewDelegate, UICollectionVie
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return 48 // 좌석 개수
   }
+    
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "seatCell", for: indexPath) as! SeatCell
     let seatNumber = seatNumberForIndexPath(indexPath)
     cell.configure(isSelected: selectedSeats.contains(indexPath), seatNumber: seatNumber)
     return cell
   }
+    
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     if let index = selectedSeats.firstIndex(of: indexPath) {
       selectedSeats.remove(at: index)
@@ -104,6 +108,7 @@ extension SeatSelectionViewController: UICollectionViewDelegate, UICollectionVie
     }
     collectionView.reloadItems(at: [indexPath])
   }
+    
   private func seatNumberForIndexPath(_ indexPath: IndexPath) -> String {
     let row = indexPath.item / 8
     let column = indexPath.item % 8

@@ -1,5 +1,13 @@
 import Foundation
 
+struct Booking: Codable {
+    let bookingDate: Date
+    let bookingNum: Int
+    let bookingPrice: Double
+    let bookingSeat: String
+    let movieImage: String
+    let movieTitle: String
+}
 
 // UserDefaults.standard.set() -> create, update
 // UserDefaults.standard.string(forKey: "") -> read
@@ -42,4 +50,69 @@ class UserDefaultsManager {
     private func setCurrentEmail(email: String) {
         UserDefaults.standard.set(email, forKey: currentEmailKey)
     }
+    
+// MARK: - Bookings 모델 데이터
+/*
+second entity = Bookings
+ movieTitle
+ movieImage
+ bookingDate
+ bookingNum
+ bookingPrice
+ bookingSeat
+*/
+    private let bookingsKey = "bookings"
+/*
+    saveBooking(_:):
+    - Booking 객체를 받아 현재 로그인된 사용자의 예약 리스트에 추가
+    - 예약 리스트는 이메일을 키로 하는 딕셔너리 형태로 저장됨
+    - 예약 정보를 JSON으로 인코딩하여 UserDefaults에 저장(복잡한 데이터 구조는 CoreData를 사용해야함)
+    getBookings():
+    - UserDefaults에서 모든 예약 정보를 가져와 [String: [Booking]] 타입의 딕셔너리로 반환
+    - 예약 정보가 없으면 빈 딕셔너리를 반환
+    getBookings(for email:):
+    - 특정 이메일에 대한 예약 리스트를 반환
+    - 이메일에 해당하는 예약 정보가 없으면 빈 배열을 반환
+
+    * 사용 예씨
+    private let booking: Booking
+     
+    private func configure(with booking: Booking) {
+        movieTitleLabel.text = "영화 제목: \(booking.movieTitle)"
+        bookingDateLabel.text = "예매 날짜: \(booking.bookingDate)"
+        bookingNumLabel.text = "예매 번호: \(booking.bookingNum)"
+        bookingPriceLabel.text = "예매 가격: \(booking.bookingPrice)"
+        bookingSeatLabel.text = "좌석 번호: \(booking.bookingSeat)"
+    }
+*/
+    
+    // 에매 정보 저장
+    func saveBooking(_ booking: Booking) {
+            var bookings = getBookings()
+            if let email = getEmail() {
+                var userBookings = bookings[email] ?? []
+                userBookings.append(booking)
+                bookings[email] = userBookings
+                if let encoded = try? JSONEncoder().encode(bookings) {
+                    UserDefaults.standard.set(encoded, forKey: bookingsKey)
+                }
+            }
+        }
+        // 모든 예약 정보 가져오기
+        func getBookings() -> [String: [Booking]] {
+            if let data = UserDefaults.standard.data(forKey: bookingsKey),
+               let bookings = try? JSONDecoder().decode([String: [Booking]].self, from: data) {
+                return bookings
+            }
+            return [:]
+        }
+        // 특정 이메일에 대한 예약 정보 가져오ㄱ ㅣ
+        func getBookings(for email: String) -> [Booking] {
+            let bookings = getBookings()
+            return bookings[email] ?? []
+        }
+
 }
+
+
+

@@ -31,22 +31,86 @@ class MyPageViewController: UIViewController {
         fetchData()
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: Notification.Name("BookingCompleted"), object: nil)
+    }
+    
     private func setupBindings() {
         myPageView.editNameButton.addTarget(self, action: #selector(editName), for: .touchUpInside)
         myPageView.editEmailButton.addTarget(self, action: #selector(editEmail), for: .touchUpInside)
         myPageView.editPasswordButton.addTarget(self, action: #selector(editPassword), for: .touchUpInside)
+        myPageView.saveNameButton.addTarget(self, action: #selector(saveName), for: .touchUpInside)
+        myPageView.saveEmailButton.addTarget(self, action: #selector(saveEmail), for: .touchUpInside)
+        myPageView.savePasswordButton.addTarget(self, action: #selector(savePassword), for: .touchUpInside)
     }
     
     @objc private func editName() {
-        // 이름 편집 로직
+        myPageView.nameValueLabel.isHidden = true
+        myPageView.nameTextField.text = myPageView.nameValueLabel.text
+        myPageView.nameTextField.isHidden = false
+        myPageView.editNameButton.isHidden = true
+        myPageView.saveNameButton.isHidden = false
     }
     
     @objc private func editEmail() {
-        // 이메일 편집 로직
+        myPageView.emailValueLabel.isHidden = true
+        myPageView.emailTextField.text = myPageView.emailValueLabel.text
+        myPageView.emailTextField.isHidden = false
+        myPageView.editEmailButton.isHidden = true
+        myPageView.saveEmailButton.isHidden = false
     }
     
     @objc private func editPassword() {
-        // 비밀번호 편집 로직
+        myPageView.passwordValueLabel.isHidden = true
+        myPageView.passwordTextField.text = UserDefaultsManager.shared.getPassword(for: UserDefaultsManager.shared.getEmail()!) ?? ""
+        myPageView.passwordTextField.isHidden = false
+        myPageView.editPasswordButton.isHidden = true
+        myPageView.savePasswordButton.isHidden = false
+    }
+    
+    @objc private func saveName() {
+        guard let email = UserDefaultsManager.shared.getEmail() else { return }
+        
+        let newName = myPageView.nameTextField.text ?? ""
+        UserDefaultsManager.shared.saveCredentials(email: email, password: UserDefaultsManager.shared.getPassword(for: email) ?? "", nickname: newName, userId: UserDefaultsManager.shared.getUserId(for: email) ?? UUID())
+        
+        displayUserInfo()
+        myPageView.nameTextField.isHidden = true
+        myPageView.saveNameButton.isHidden = true
+        myPageView.editNameButton.isHidden = false
+        myPageView.nameValueLabel.isHidden = false
+    }
+    
+    @objc private func saveEmail() {
+        guard let oldEmail = UserDefaultsManager.shared.getEmail() else { return }
+        
+        let newEmail = myPageView.emailTextField.text ?? oldEmail
+        let password = UserDefaultsManager.shared.getPassword(for: oldEmail) ?? ""
+        let nickname = UserDefaultsManager.shared.getNickname(for: oldEmail) ?? ""
+        let userId = UserDefaultsManager.shared.getUserId(for: oldEmail) ?? UUID()
+        
+        UserDefaultsManager.shared.updateEmail(from: oldEmail, to: newEmail)
+        UserDefaultsManager.shared.saveCredentials(email: newEmail, password: password, nickname: nickname, userId: userId)
+        
+        displayUserInfo()
+        myPageView.emailTextField.isHidden = true
+        myPageView.saveEmailButton.isHidden = true
+        myPageView.editEmailButton.isHidden = false
+        myPageView.emailValueLabel.isHidden = false
+    }
+    
+    @objc private func savePassword() {
+        guard let email = UserDefaultsManager.shared.getEmail() else { return }
+        
+        let newPassword = myPageView.passwordTextField.text ?? ""
+        
+        UserDefaultsManager.shared.updatePassword(for: email, to: newPassword)
+        
+        displayUserInfo()
+        myPageView.passwordTextField.isHidden = true
+        myPageView.savePasswordButton.isHidden = true
+        myPageView.editPasswordButton.isHidden = false
+        myPageView.passwordValueLabel.isHidden = false
     }
     
     private func fetchData() {
@@ -86,8 +150,8 @@ class MyPageViewController: UIViewController {
     private func displayUserInfo() {
         if let email = UserDefaultsManager.shared.getEmail(),
            let nickname = UserDefaultsManager.shared.getNickname(for: email) {
-            myPageView.emailValueLabel.text = "\(email)"
-            myPageView.nameValueLabel.text = "\(nickname)님"
+            myPageView.emailValueLabel.text = email
+            myPageView.nameValueLabel.text = nickname
         } else {
             myPageView.emailValueLabel.text = "email 값 없음"
             myPageView.nameValueLabel.text = "nickname 값 없음"
@@ -123,8 +187,6 @@ class MyPageViewController: UIViewController {
         UserDefaultsManager.shared.deleteBooking(booking)
         fetchData()
     }
-
-
 }
 
 extension MyPageViewController: UICollectionViewDataSource {

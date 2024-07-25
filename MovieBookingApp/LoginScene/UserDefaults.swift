@@ -59,7 +59,7 @@ class UserDefaultsManager {
     }
     
     // 현재 이메일을 UserDefaults에 저장
-    private func setCurrentEmail(email: String) {
+    func setCurrentEmail(email: String) {
         UserDefaults.standard.set(email, forKey: currentEmailKey)
     }
 
@@ -92,15 +92,37 @@ class UserDefaultsManager {
     }
     
     // 예매 내역 삭제 기능 추가
-        func deleteBooking(_ booking: Booking) {
-            guard let email = getEmail() else { return }
-            var bookings = getBookings()
-            if var userBookings = bookings[email] {
-                userBookings.removeAll { $0.bookingDate == booking.bookingDate && $0.movieTitle == booking.movieTitle }
-                bookings[email] = userBookings
-                if let encoded = try? JSONEncoder().encode(bookings) {
-                    UserDefaults.standard.set(encoded, forKey: bookingsKey)
-                }
+    func deleteBooking(_ booking: Booking) {
+        guard let email = getEmail() else { return }
+        var bookings = getBookings()
+        if var userBookings = bookings[email] {
+            userBookings.removeAll { $0.bookingDate == booking.bookingDate && $0.movieTitle == booking.movieTitle }
+            bookings[email] = userBookings
+            if let encoded = try? JSONEncoder().encode(bookings) {
+                UserDefaults.standard.set(encoded, forKey: bookingsKey)
             }
         }
+    }
+
+    // 이메일 업데이트
+    func updateEmail(from oldEmail: String, to newEmail: String) {
+        var credentials = getCredentials()
+        if let oldData = credentials.removeValue(forKey: oldEmail) {
+            credentials[newEmail] = oldData
+            UserDefaults.standard.set(credentials, forKey: credentialsKey)
+        }
+        if let currentEmail = getEmail(), currentEmail == oldEmail {
+            setCurrentEmail(email: newEmail)
+        }
+    }
+
+    // 비밀번호 업데이트
+    func updatePassword(for email: String, to newPassword: String) {
+        var credentials = getCredentials()
+        if var userData = credentials[email] {
+            userData["password"] = newPassword
+            credentials[email] = userData
+            UserDefaults.standard.set(credentials, forKey: credentialsKey)
+        }
+    }
 }

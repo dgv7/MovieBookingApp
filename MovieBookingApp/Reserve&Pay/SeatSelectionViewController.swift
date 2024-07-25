@@ -110,7 +110,8 @@ extension SeatSelectionViewController: UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "seatCell", for: indexPath) as! SeatCell
-        cell.configure(isSelected: selectedSeats.contains(indexPath))
+        let seatNumber = seatNumberForIndexPath(indexPath)
+        cell.configure(isSelected: selectedSeats.contains(indexPath), seatNumber: seatNumber)
         return cell
     }
     
@@ -122,4 +123,12 @@ extension SeatSelectionViewController: UICollectionViewDelegate, UICollectionVie
         }
         collectionView.reloadItems(at: [indexPath])
     }
+    
+    private func seatNumberForIndexPath(_ indexPath: IndexPath) -> String {
+        let row = indexPath.item / 8
+        let column = indexPath.item % 8
+        let rowLetter = Character(UnicodeScalar(65 + row)!)
+        return "\(rowLetter)\(column + 1)"
+    }
 }
+

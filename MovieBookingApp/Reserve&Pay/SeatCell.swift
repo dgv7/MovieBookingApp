@@ -17,7 +17,8 @@ class SeatCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(isSelected: Bool) {
-        contentView.backgroundColor = isSelected ? .green : .gray
+    func configure(isSelected: Bool, seatNumber: String) {
+        seatLabel.text = seatNumber
+        contentView.backgroundColor = isSelected ? .white : .gray
     }
 }

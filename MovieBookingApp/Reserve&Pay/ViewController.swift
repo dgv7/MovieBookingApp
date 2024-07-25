@@ -221,20 +221,21 @@ class ViewController: UIViewController {
         present(seatSelectionVC, animated: true, completion: nil)
     }
     
-    func saveBooking(date: String) {
-        guard let email = UserDefaultsManager.shared.getEmail(),
-              let userId = UserDefaultsManager.shared.getUserId(for: email) else { return }
-        
+    private func saveBooking(date: String) {
+        guard let userId = UserDefaultsManager.shared.getCurrentUserId() else {
+            print("User ID가 없습니다.")
+            return
+        }
+
         let booking = Booking(
             bookingDate: date,
-            bookingNum: selectedSeats.count,
-            bookingPrice: Double(peopleStepper.value) * 10000,
-            bookingSeat: selectedSeats.map { seatNumberForIndexPath($0) }.joined(separator: ", "),
+            bookingNum: Int.random(in: 1000...9999),
+            bookingPrice: Double(peopleStepper.value) * 10000.0,
+            bookingSeat: selectedSeats.map { $0.stringRepresentation }.joined(separator: ","),
             movieImage: movie.posterPath ?? "",
             movieTitle: movie.title,
             userId: userId
         )
-        
         UserDefaultsManager.shared.saveBooking(booking)
     }
     

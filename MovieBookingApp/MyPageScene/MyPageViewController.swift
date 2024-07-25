@@ -72,6 +72,11 @@ class MyPageViewController: UIViewController {
         guard let email = UserDefaultsManager.shared.getEmail() else { return }
         
         let newName = myPageView.nameTextField.text ?? ""
+        if newName.isEmpty {
+            showAlert(message: "이름을 입력하세요.")
+            return
+        }
+        
         UserDefaultsManager.shared.saveCredentials(email: email, password: UserDefaultsManager.shared.getPassword(for: email) ?? "", nickname: newName, userId: UserDefaultsManager.shared.getUserId(for: email) ?? UUID())
         
         displayUserInfo()
@@ -85,6 +90,11 @@ class MyPageViewController: UIViewController {
         guard let oldEmail = UserDefaultsManager.shared.getEmail() else { return }
         
         let newEmail = myPageView.emailTextField.text ?? oldEmail
+        if newEmail.isEmpty {
+            showAlert(message: "이메일을 입력하세요.")
+            return
+        }
+        
         let password = UserDefaultsManager.shared.getPassword(for: oldEmail) ?? ""
         let nickname = UserDefaultsManager.shared.getNickname(for: oldEmail) ?? ""
         let userId = UserDefaultsManager.shared.getUserId(for: oldEmail) ?? UUID()
@@ -103,6 +113,10 @@ class MyPageViewController: UIViewController {
         guard let email = UserDefaultsManager.shared.getEmail() else { return }
         
         let newPassword = myPageView.passwordTextField.text ?? ""
+        if newPassword.isEmpty {
+            showAlert(message: "비밀번호를 입력하세요.")
+            return
+        }
         
         UserDefaultsManager.shared.updatePassword(for: email, to: newPassword)
         
@@ -111,6 +125,13 @@ class MyPageViewController: UIViewController {
         myPageView.savePasswordButton.isHidden = true
         myPageView.editPasswordButton.isHidden = false
         myPageView.passwordValueLabel.isHidden = false
+    }
+    
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
     }
     
     private func fetchData() {

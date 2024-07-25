@@ -1,68 +1,60 @@
-
 import UIKit
 
 class MoviePosterCell: UICollectionViewCell {
-    
     static let identifier = "MoviePosterCell"
     
-    let posterImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 8
-        return imageView
-    }()
-    
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textAlignment = .center
-        return label
-    }()
+    private let imageView = UIImageView()
+    private let titleLabel = UILabel()
+    private let dateLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupView()
+        setupViews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupView() {
-        contentView.addSubview(posterImageView)
+    private func setupViews() {
+        contentView.addSubview(imageView)
         contentView.addSubview(titleLabel)
+        contentView.addSubview(dateLabel)
         
-        posterImageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            posterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            posterImageView.heightAnchor.constraint(equalTo: contentView.widthAnchor),
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            imageView.heightAnchor.constraint(equalToConstant: 100),
             
-            titleLabel.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 4),
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            
+            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
+            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            dateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
     
-    func configure(with movie: Movie) {
-        titleLabel.text = movie.title
-        let imageUrl = "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "")"
-
-        if let url = URL(string: imageUrl) {
-            // Load image asynchronously
-            DispatchQueue.global().async {
-                if let data = try? Data(contentsOf: url) {
-                    let image = UIImage(data: data)
-                    DispatchQueue.main.async {
-                        self.posterImageView.image = image
-                    }
-                }
-            }
+    func configure(with booking: Booking) {
+        if let url = URL(string: "https://image.tmdb.org/t/p/w500\(booking.movieImage)") {
+            imageView.setImage(from: url)
         }
+        titleLabel.text = booking.movieTitle
+        dateLabel.text = booking.bookingDate
+    }
+    
+    func configure(with movie: Movie) {
+        if let posterPath = movie.posterPath, let url = URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)") {
+            imageView.setImage(from: url)
+        }
+        titleLabel.text = movie.title
+        dateLabel.text = ""
     }
 }

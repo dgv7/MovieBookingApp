@@ -56,6 +56,29 @@ class MyPageView: UIView {
         return label
     }()
     
+    let nameTextField: UITextField = {
+        let textField = UITextField()
+        textField.borderStyle = .roundedRect
+        textField.isHidden = true
+        return textField
+    }()
+    
+    let emailTextField: UITextField = {
+        let textField = UITextField()
+        textField.borderStyle = .roundedRect
+        textField.isHidden = true
+        textField.keyboardType = .emailAddress
+        return textField
+    }()
+    
+    let passwordTextField: UITextField = {
+        let textField = UITextField()
+        textField.borderStyle = .roundedRect
+        textField.isHidden = true
+        textField.isSecureTextEntry = true
+        return textField
+    }()
+    
     let editNameButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("✏️", for: .normal)
@@ -71,6 +94,27 @@ class MyPageView: UIView {
     let editPasswordButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("✏️", for: .normal)
+        return button
+    }()
+    
+    let saveNameButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("💾", for: .normal)
+        button.isHidden = true
+        return button
+    }()
+    
+    let saveEmailButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("💾", for: .normal)
+        button.isHidden = true
+        return button
+    }()
+    
+    let savePasswordButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("💾", for: .normal)
+        button.isHidden = true
         return button
     }()
     
@@ -109,17 +153,17 @@ class MyPageView: UIView {
     private func setupView() {
         backgroundColor = .white
         
-        let nameStackView = UIStackView(arrangedSubviews: [nameLabel, nameValueLabel, editNameButton])
+        let nameStackView = UIStackView(arrangedSubviews: [nameLabel, nameValueLabel, nameTextField, editNameButton, saveNameButton])
         nameStackView.axis = .horizontal
         nameStackView.alignment = .center
         nameStackView.spacing = 8
         
-        let emailStackView = UIStackView(arrangedSubviews: [emailLabel, emailValueLabel, editEmailButton])
+        let emailStackView = UIStackView(arrangedSubviews: [emailLabel, emailValueLabel, emailTextField, editEmailButton, saveEmailButton])
         emailStackView.axis = .horizontal
         emailStackView.alignment = .center
         emailStackView.spacing = 8
         
-        let passwordStackView = UIStackView(arrangedSubviews: [passwordLabel, passwordValueLabel, editPasswordButton])
+        let passwordStackView = UIStackView(arrangedSubviews: [passwordLabel, passwordValueLabel, passwordTextField, editPasswordButton, savePasswordButton])
         passwordStackView.axis = .horizontal
         passwordStackView.alignment = .center
         passwordStackView.spacing = 8

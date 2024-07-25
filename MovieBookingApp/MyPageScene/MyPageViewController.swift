@@ -2,8 +2,6 @@ import UIKit
 
 class MyPageViewController: UIViewController {
     
-//    var email: String?
-    
     private let myPageView = MyPageView()
     private let viewModel = MyPageViewModel()
     
@@ -16,34 +14,123 @@ class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBindings()
-//        myPageView.bookingCollectionView.delegate = self
-//        myPageView.wantedMoviesCollectionView.delegate = self
         myPageView.bookingCollectionView.dataSource = self
+        myPageView.bookingCollectionView.delegate = self
         myPageView.wantedMoviesCollectionView.dataSource = self
         fetchData()
 
         setupSegmentedControl()
         
         displayUserInfo()
-
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshBookings), name: Notification.Name("BookingCompleted"), object: nil)
+    }
+    
+    @objc private func refreshBookings() {
+        fetchData()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: Notification.Name("BookingCompleted"), object: nil)
     }
     
     private func setupBindings() {
         myPageView.editNameButton.addTarget(self, action: #selector(editName), for: .touchUpInside)
         myPageView.editEmailButton.addTarget(self, action: #selector(editEmail), for: .touchUpInside)
         myPageView.editPasswordButton.addTarget(self, action: #selector(editPassword), for: .touchUpInside)
+        myPageView.saveNameButton.addTarget(self, action: #selector(saveName), for: .touchUpInside)
+        myPageView.saveEmailButton.addTarget(self, action: #selector(saveEmail), for: .touchUpInside)
+        myPageView.savePasswordButton.addTarget(self, action: #selector(savePassword), for: .touchUpInside)
     }
     
     @objc private func editName() {
-        // 이름 편집 로직
+        myPageView.nameValueLabel.isHidden = true
+        myPageView.nameTextField.text = myPageView.nameValueLabel.text
+        myPageView.nameTextField.isHidden = false
+        myPageView.editNameButton.isHidden = true
+        myPageView.saveNameButton.isHidden = false
     }
     
     @objc private func editEmail() {
-        // 이메일 편집 로직
+        myPageView.emailValueLabel.isHidden = true
+        myPageView.emailTextField.text = myPageView.emailValueLabel.text
+        myPageView.emailTextField.isHidden = false
+        myPageView.editEmailButton.isHidden = true
+        myPageView.saveEmailButton.isHidden = false
     }
     
     @objc private func editPassword() {
-        // 비밀번호 편집 로직
+        myPageView.passwordValueLabel.isHidden = true
+        myPageView.passwordTextField.text = UserDefaultsManager.shared.getPassword(for: UserDefaultsManager.shared.getEmail()!) ?? ""
+        myPageView.passwordTextField.isHidden = false
+        myPageView.editPasswordButton.isHidden = true
+        myPageView.savePasswordButton.isHidden = false
+    }
+    
+    @objc private func saveName() {
+        guard let email = UserDefaultsManager.shared.getEmail() else { return }
+        
+        let newName = myPageView.nameTextField.text ?? ""
+        if newName.isEmpty {
+            showAlert(message: "이름을 입력하세요.")
+            return
+        }
+        
+        UserDefaultsManager.shared.saveCredentials(email: email, password: UserDefaultsManager.shared.getPassword(for: email) ?? "", nickname: newName, userId: UserDefaultsManager.shared.getUserId(for: email) ?? UUID())
+        
+        displayUserInfo()
+        myPageView.nameTextField.isHidden = true
+        myPageView.saveNameButton.isHidden = true
+        myPageView.editNameButton.isHidden = false
+        myPageView.nameValueLabel.isHidden = false
+    }
+    
+    @objc private func saveEmail() {
+        guard let oldEmail = UserDefaultsManager.shared.getEmail() else { return }
+        
+        let newEmail = myPageView.emailTextField.text ?? oldEmail
+        if newEmail.isEmpty {
+            showAlert(message: "이메일을 입력하세요.")
+            return
+        }
+        
+        let password = UserDefaultsManager.shared.getPassword(for: oldEmail) ?? ""
+        let nickname = UserDefaultsManager.shared.getNickname(for: oldEmail) ?? ""
+        let userId = UserDefaultsManager.shared.getUserId(for: oldEmail) ?? UUID()
+        
+        UserDefaultsManager.shared.updateEmail(from: oldEmail, to: newEmail)
+        UserDefaultsManager.shared.saveCredentials(email: newEmail, password: password, nickname: nickname, userId: userId)
+        
+        displayUserInfo()
+        myPageView.emailTextField.isHidden = true
+        myPageView.saveEmailButton.isHidden = true
+        myPageView.editEmailButton.isHidden = false
+        myPageView.emailValueLabel.isHidden = false
+    }
+    
+    @objc private func savePassword() {
+        guard let email = UserDefaultsManager.shared.getEmail() else { return }
+        
+        let newPassword = myPageView.passwordTextField.text ?? ""
+        if newPassword.isEmpty {
+            showAlert(message: "비밀번호를 입력하세요.")
+            return
+        }
+        
+        UserDefaultsManager.shared.updatePassword(for: email, to: newPassword)
+        
+        displayUserInfo()
+        myPageView.passwordTextField.isHidden = true
+        myPageView.savePasswordButton.isHidden = true
+        myPageView.editPasswordButton.isHidden = false
+        myPageView.passwordValueLabel.isHidden = false
+    }
+    
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
     }
     
     private func fetchData() {
@@ -65,12 +152,12 @@ class MyPageViewController: UIViewController {
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(segmentedControl)
         
-        segmentedControl.snp.makeConstraints{
-               $0.centerX.equalToSuperview()
-               $0.top.equalToSuperview().offset(105)
-               $0.leading.equalToSuperview().offset(16)
-               $0.trailing.equalToSuperview().offset(-16)
-             }
+        segmentedControl.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().offset(105)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+        }
     }
     
     @objc private func segmentChanged() {
@@ -83,21 +170,68 @@ class MyPageViewController: UIViewController {
     private func displayUserInfo() {
         if let email = UserDefaultsManager.shared.getEmail(),
            let nickname = UserDefaultsManager.shared.getNickname(for: email) {
-            myPageView.emailValueLabel.text = "\(email)"    // 로그인 email을 기준으로한 nickname 값 가져오기
-            myPageView.nameValueLabel.text = "\(nickname)님"
+            myPageView.emailValueLabel.text = email
+            myPageView.nameValueLabel.text = nickname
         } else {
             myPageView.emailValueLabel.text = "email 값 없음"
             myPageView.nameValueLabel.text = "nickname 값 없음"
         }
     }
     
-    private func displayBookings() {
-        guard let email = UserDefaultsManager.shared.getEmail() else { return }
-        let bookings = UserDefaultsManager.shared.getBookings(for: email)
+    private func displayBookingDetails(_ booking: Booking) {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.maximumFractionDigits = 0
+        let formattedPrice = numberFormatter.string(from: NSNumber(value: booking.bookingPrice)) ?? "\(booking.bookingPrice)"
+        
+        let message = """
+        영화 제목: \(booking.movieTitle)
+        예매 날짜: \(booking.bookingDate)
+        예매 번호: \(booking.bookingNum)
+        예매 가격: \(formattedPrice)원
+        좌석 번호: \(booking.bookingSeat)
+        """
+        let alert = UIAlertController(title: "예매 상세 정보", message: message, preferredStyle: .alert)
+        
+        let checkSeatsAction = UIAlertAction(title: "좌석 확인", style: .default) { _ in
+            self.showSeatCheckView(seats: booking.bookingSeat)
+        }
+        let cancelAction = UIAlertAction(title: "예매 취소", style: .destructive) { _ in
+            self.cancelBooking(booking)
+        }
+        let closeAction = UIAlertAction(title: "닫기", style: .cancel, handler: nil)
+        
+        alert.addAction(checkSeatsAction)
+        alert.addAction(cancelAction)
+        alert.addAction(closeAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func showSeatCheckView(seats: String) {
+        let seatIndexes = seats.split(separator: ",").compactMap { IndexPath(string: String($0.trimmingCharacters(in: .whitespaces))) }
+        let seatCheckVC = SeatSelectionViewController(peopleCount: seatIndexes.count, selectedSeats: seatIndexes, isPreviewMode: true)
+        navigationController?.pushViewController(seatCheckVC, animated: true)
     }
 
+    private func cancelBooking(_ booking: Booking) {
+        UserDefaultsManager.shared.deleteBooking(booking)
+        fetchData()
+    }
 }
 
+extension IndexPath {
+    init?(string: String) {
+        let components = string.split(separator: "-")
+        guard components.count == 2,
+              let item = Int(components[0]),
+              let section = Int(components[1]) else { return nil }
+        self.init(item: item, section: section)
+    }
+    
+    var stringRepresentation: String {
+        return "\(self.item)-\(self.section)"
+    }
+}
 
 extension MyPageViewController: UICollectionViewDataSource {
     
@@ -122,15 +256,12 @@ extension MyPageViewController: UICollectionViewDataSource {
     }
 }
 
-//extension MyPageViewController: UICollectionViewDelegate {
-//    
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if collectionView == myPageView.bookingCollectionView {
-//            let booking = viewModel.bookedMovies[indexPath.item]
-//            let detailVC = BookingDetailViewController(booking: booking)
-//            navigationController?.pushViewController(detailVC, animated: true)
-//        } else {
-//            // handle wantedMovies selection if needed
-//        }
-//    }
-//}
+extension MyPageViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == myPageView.bookingCollectionView {
+            let booking = viewModel.bookedMovies[indexPath.item]
+            displayBookingDetails(booking)
+        }
+    }
+}

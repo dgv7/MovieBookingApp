@@ -134,7 +134,8 @@ class MyPageViewController: UIViewController {
     }
     
     private func fetchData() {
-        viewModel.fetchBookedMovies {
+        guard let userId = UserDefaultsManager.shared.getCurrentUserId() else { return }
+        viewModel.fetchBookedMovies(for: userId) {
             DispatchQueue.main.async {
                 self.myPageView.bookingCollectionView.reloadData()
             }
@@ -208,7 +209,8 @@ class MyPageViewController: UIViewController {
     }
     
     private func showSeatCheckView(seats: String) {
-        let seatIndexes = seats.split(separator: ",").compactMap { IndexPath(string: String($0.trimmingCharacters(in: .whitespaces))) }
+        let seatIndexes = seats.split(separator: ",").compactMap { IndexPath(seatString: String($0.trimmingCharacters(in: .whitespaces))) }
+        print("좌석 정보: \(seatIndexes)") // 로그로 확인하기
         let seatCheckVC = SeatSelectionViewController(peopleCount: seatIndexes.count, selectedSeats: seatIndexes, isPreviewMode: true)
         navigationController?.pushViewController(seatCheckVC, animated: true)
     }
@@ -219,19 +221,27 @@ class MyPageViewController: UIViewController {
     }
 }
 
+//좌석 정보를 인덱스로 변환
 extension IndexPath {
-    init?(string: String) {
-        let components = string.split(separator: "-")
-        guard components.count == 2,
-              let item = Int(components[0]),
-              let section = Int(components[1]) else { return nil }
-        self.init(item: item, section: section)
+    init?(seatString: String) {
+        guard seatString.count >= 2 else { return nil }
+        let rowLetter = seatString.first!
+        let columnString = seatString.dropFirst()
+        
+        guard let row = rowLetter.asciiValue.map({ Int($0) - 65 }), // 'A'의 ASCII 값은 65입니다.
+              let column = Int(columnString).map({ $0 - 1 }) else { return nil } // IndexPath는 0 기반 인덱스입니다.
+        
+        self.init(item: row * 8 + column, section: 0)
     }
     
     var stringRepresentation: String {
-        return "\(self.item)-\(self.section)"
+        let row = item / 8
+        let column = item % 8
+        let rowLetter = String(UnicodeScalar(65 + row)!)
+        return "\(rowLetter)\(column + 1)"
     }
 }
+
 
 extension MyPageViewController: UICollectionViewDataSource {
     

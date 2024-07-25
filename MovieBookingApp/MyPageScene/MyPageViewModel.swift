@@ -5,13 +5,11 @@ class MyPageViewModel {
 //    var bookedMovies: [Movie] = []
     var bookedMovies: [Booking] = []
     var wantedMovies: [Movie] = []
-    
-    func fetchBookedMovies(completion: @escaping () -> Void) {
-            if let email = UserDefaultsManager.shared.getEmail() {
-                self.bookedMovies = UserDefaultsManager.shared.getBookings(for: email)
-            }
-            completion()
-        }
+
+    func fetchBookedMovies(for userId: UUID, completion: @escaping () -> Void) {
+        bookedMovies = UserDefaultsManager.shared.getBookings(for: userId)
+        completion()
+    }
     
 //    func fetchBookedMovies(completion: @escaping () -> Void) {
 //        MovieService.shared.fetchMovies(endpoint: "upcoming") { movies in

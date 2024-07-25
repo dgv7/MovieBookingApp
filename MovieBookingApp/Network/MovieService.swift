@@ -23,6 +23,7 @@ struct Movie: Decodable {
         case posterPath = "poster_path"
         case overview
     }
+    
 }
 
 class MovieService {

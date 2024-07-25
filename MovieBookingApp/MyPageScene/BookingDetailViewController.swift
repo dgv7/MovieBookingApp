@@ -1,5 +1,5 @@
 import UIKit
-
+// 이거 샘플 파일이라 무시하셔도 됩니다
 class BookingDetailViewController: UIViewController {
     
     private let booking: Booking

@@ -15,7 +15,6 @@
 		C72BFB092C4F4A5A00D1ABFB /* MovieCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72BFB082C4F4A5A00D1ABFB /* MovieCollectionCell.swift */; };
 		C77632812C51E45E0056062E /* SeatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77632802C51E45E0056062E /* SeatCell.swift */; };
 		C77632832C51E4740056062E /* SeatSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77632822C51E4740056062E /* SeatSelectViewController.swift */; };
-		C77632852C520A100056062E /* Booking.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77632842C520A100056062E /* Booking.swift */; };
 		C77632872C5210A50056062E /* BookingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77632862C5210A50056062E /* BookingDetailViewController.swift */; };
 		CA352E1E2C4E36790058AB23 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA352E1D2C4E36790058AB23 /* LoginView.swift */; };
 		CA352E202C4E439E0058AB23 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA352E1F2C4E439E0058AB23 /* UserDefaults.swift */; };
@@ -42,7 +41,6 @@
 		C72BFB082C4F4A5A00D1ABFB /* MovieCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionCell.swift; sourceTree = "<group>"; };
 		C77632802C51E45E0056062E /* SeatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatCell.swift; sourceTree = "<group>"; };
 		C77632822C51E4740056062E /* SeatSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatSelectViewController.swift; sourceTree = "<group>"; };
-		C77632842C520A100056062E /* Booking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Booking.swift; sourceTree = "<group>"; };
 		C77632862C5210A50056062E /* BookingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingDetailViewController.swift; sourceTree = "<group>"; };
 		CA352E1D2C4E36790058AB23 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		CA352E1F2C4E439E0058AB23 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
@@ -147,7 +145,6 @@
 				DBFA3D1D2C4E6D6600879D62 /* MyPageScene */,
 				C776327F2C51E4200056062E /* Reserve&Pay */,
 				C72BFB0A2C4F6F8800D1ABFB /* Network */,
-				C77632842C520A100056062E /* Booking.swift */,
 				DBFA3D122C4E2F7700879D62 /* Assets.xcassets */,
 				DBFA3D142C4E2F7700879D62 /* LaunchScreen.storyboard */,
 				DBFA3D172C4E2F7700879D62 /* Info.plist */,
@@ -262,7 +259,6 @@
 				DBFA3D212C4EA7F600879D62 /* MyPageView.swift in Sources */,
 				DBFA3D252C4EA99100879D62 /* MyPageViewModel.swift in Sources */,
 				C72BFAFF2C4F322A00D1ABFB /* MovieDetailController.swift in Sources */,
-				C77632852C520A100056062E /* Booking.swift in Sources */,
 				C72BFAFD2C4F313000D1ABFB /* MovieService.swift in Sources */,
 				ABB37B412C4E697A0053FD99 /* MovieViewController.swift in Sources */,
 			);

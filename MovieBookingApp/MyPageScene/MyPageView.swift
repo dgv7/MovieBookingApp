@@ -4,21 +4,21 @@ class MyPageView: UIView {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "이름"
+        label.text = "이름 :"
         label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
     
     let emailLabel: UILabel = {
         let label = UILabel()
-        label.text = "이메일"
+        label.text = "이메일 :"
         label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
     
     let passwordLabel: UILabel = {
         let label = UILabel()
-        label.text = "비밀번호"
+        label.text = "비밀번호 :"
         label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()

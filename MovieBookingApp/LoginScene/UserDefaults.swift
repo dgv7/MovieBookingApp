@@ -74,16 +74,15 @@ second entity = Bookings
     - 특정 이메일에 대한 예약 리스트를 반환
     - 이메일에 해당하는 예약 정보가 없으면 빈 배열을 반환
 
-    * 사용 예씨
-    private let booking: Booking
-     
-    private func configure(with booking: Booking) {
-        movieTitleLabel.text = "영화 제목: \(booking.movieTitle)"
-        bookingDateLabel.text = "예매 날짜: \(booking.bookingDate)"
-        bookingNumLabel.text = "예매 번호: \(booking.bookingNum)"
-        bookingPriceLabel.text = "예매 가격: \(booking.bookingPrice)"
-        bookingSeatLabel.text = "좌석 번호: \(booking.bookingSeat)"
-    }
+    * 채웅님 변수명 연결
+ let VC = ViewController()
+
+  movieTitle = VC.reserveMoveNameLabel.text
+  movieImage = VC.imageView. // 이건 구조 다시 봐야함
+  bookingDate = VC.selectedDateTimeLabel.text
+  bookingNum = VC.peopleCountLabel.text
+  bookingPrice = VC.totalPriceLabel.text
+  bookingSeat = VC.selectedSeatsLabel.text
 */
     
     // 에매 정보 저장

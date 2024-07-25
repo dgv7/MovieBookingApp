@@ -12,9 +12,19 @@ class ViewController: UIViewController {
     let peopleStepper = UIStepper()
     let totalPriceLabel = UILabel()
     let payButton = UIButton()
+    let selectSeatsButton = UIButton() // 좌석 선택 버튼 추가
     
     let imageView = UIImageView()
     let reserveMoveNameLabel = UILabel()
+    
+    // 날짜 및 시간 스택 뷰
+    let dateStackView = UIStackView()
+    
+    // 인원 스택 뷰
+    let peopleStackView = UIStackView()
+    
+    // 선택된 좌석 저장을 위한 배열
+    var selectedSeats = [IndexPath]()
     
     init(movie: Movie) {
         self.movie = movie
@@ -47,25 +57,35 @@ class ViewController: UIViewController {
         titleLabel.font = .boldSystemFont(ofSize: 30)
         view.addSubview(titleLabel)
         
-        dateLabel.text = "날짜"
+        dateLabel.text = "날짜 및 시간"
         dateLabel.font = .boldSystemFont(ofSize: 17)
-        view.addSubview(dateLabel)
         
-        datePicker.datePickerMode = .date
-        view.addSubview(datePicker)
+        // 날짜 및 시간 스택 뷰 설정
+        dateStackView.axis = .horizontal
+        dateStackView.spacing = 10
+        dateStackView.alignment = .center
+        dateStackView.addArrangedSubview(dateLabel)
+        dateStackView.addArrangedSubview(datePicker)
+        view.addSubview(dateStackView)
         
         peopleLabel.text = "인원"
         peopleLabel.font = .boldSystemFont(ofSize: 17)
-        view.addSubview(peopleLabel)
+        
+        // 인원 스택 뷰 설정
+        peopleStackView.axis = .horizontal
+        peopleStackView.spacing = 10
+        peopleStackView.alignment = .center
+        peopleStackView.addArrangedSubview(peopleLabel)
+        peopleStackView.addArrangedSubview(peopleCountLabel)
+        peopleStackView.addArrangedSubview(peopleStepper)
+        view.addSubview(peopleStackView)
         
         peopleCountLabel.text = "1"
-        view.addSubview(peopleCountLabel)
         
         peopleStepper.minimumValue = 1
         peopleStepper.maximumValue = 10
         peopleStepper.value = 1
         peopleStepper.addTarget(self, action: #selector(peopleStepperChanged), for: .valueChanged)
-        view.addSubview(peopleStepper)
         
         totalPriceLabel.text = "총 가격: 10,000원"
         totalPriceLabel.font = .boldSystemFont(ofSize: 20)
@@ -76,6 +96,13 @@ class ViewController: UIViewController {
         payButton.setTitleColor(.black, for: .normal)
         payButton.addTarget(self, action: #selector(payButtonTapped), for: .touchUpInside)
         view.addSubview(payButton)
+        
+        // 좌석 선택 버튼 추가
+        selectSeatsButton.setTitle("좌석 선택", for: .normal)
+        selectSeatsButton.backgroundColor = .systemBlue
+        selectSeatsButton.setTitleColor(.white, for: .normal)
+        selectSeatsButton.addTarget(self, action: #selector(showSeatSelectionModal), for: .touchUpInside)
+        view.addSubview(selectSeatsButton)
     }
     
     func setupConstraints() {
@@ -95,34 +122,27 @@ class ViewController: UIViewController {
             $0.centerX.equalTo(imageView)
         }
         
-        dateLabel.snp.makeConstraints { make in
+        // 날짜 및 시간 스택 뷰 레이아웃 설정
+        dateStackView.snp.makeConstraints { make in
             make.top.equalTo(reserveMoveNameLabel.snp.bottom).offset(40)
-            make.leading.equalTo(view).offset(20)
+            make.leading.trailing.equalTo(view).inset(20)
         }
         
-        datePicker.snp.makeConstraints { make in
-            make.top.equalTo(dateLabel.snp.bottom).offset(10)
-            make.leading.equalTo(dateLabel)
-            make.trailing.equalTo(view).offset(-20)
+        // 인원 스택 뷰 레이아웃 설정
+        peopleStackView.snp.makeConstraints { make in
+            make.top.equalTo(dateStackView.snp.bottom).offset(20)
+            make.leading.trailing.equalTo(view).inset(20)
         }
         
-        peopleLabel.snp.makeConstraints { make in
-            make.top.equalTo(datePicker.snp.bottom).offset(40)
-            make.leading.equalTo(view).offset(20)
-        }
-        
-        peopleCountLabel.snp.makeConstraints { make in
-            make.top.equalTo(peopleLabel.snp.bottom).offset(10)
-            make.leading.equalTo(peopleLabel)
-        }
-        
-        peopleStepper.snp.makeConstraints { make in
-            make.top.equalTo(peopleCountLabel.snp.bottom).offset(10)
-            make.trailing.equalTo(view).offset(-20)
+        // 좌석 선택 버튼 레이아웃 설정
+        selectSeatsButton.snp.makeConstraints { make in
+            make.top.equalTo(peopleStackView.snp.bottom).offset(20)
+            make.leading.trailing.equalTo(view).inset(20)
+            make.height.equalTo(50)
         }
         
         totalPriceLabel.snp.makeConstraints { make in
-            make.top.equalTo(peopleStepper.snp.bottom).offset(80)
+            make.top.equalTo(selectSeatsButton.snp.bottom).offset(20)
             make.trailing.equalTo(view).offset(-20)
         }
         
@@ -153,11 +173,31 @@ class ViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    @objc func showSeatSelectionModal() {
+        let peopleCount = Int(peopleStepper.value)
+        let seatSelectionVC = SeatSelectionViewController(peopleCount: peopleCount) { [weak self] selectedSeats in
+            if selectedSeats.count == peopleCount {
+                // 인원 수와 선택된 좌석 수가 일치하는 경우
+                self?.selectedSeats = selectedSeats
+                print("Selected seats: \(selectedSeats)")
+            } else {
+                // 인원 수와 선택된 좌석 수가 일치하지 않는 경우
+                let alert = UIAlertController(title: "좌석 수 불일치", message: "선택된 좌석 수와 인원 수가 일치하지 않습니다.", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+                alert.addAction(okAction)
+                self?.present(alert, animated: true, completion: nil)
+            }
+        }
+        seatSelectionVC.modalPresentationStyle = .overFullScreen
+        seatSelectionVC.modalTransitionStyle = .crossDissolve
+        present(seatSelectionVC, animated: true, completion: nil)
+    }
+    
     func showCompletionAlert() {
         let completionAlert = UIAlertController(title: "결제 완료", message: "결제가 완료되었습니다.", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default) { _ in
             // 화면 전환 코드
-            let movieViewController = MovieViewController()
+            _ = MovieViewController()
             self.navigationController?.popViewController(animated: true)
         }
         completionAlert.addAction(okAction)
@@ -167,7 +207,22 @@ class ViewController: UIViewController {
     
     private func configureUI(with movie: Movie) {
         let imageUrl = URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "")")
-        imageView.load(url: imageUrl)
+        imageView.setImage(from: imageUrl)
         reserveMoveNameLabel.text = "영화명: \(movie.title)"
+    }
+}
+
+extension UIImageView {
+    func setImage(from url: URL?) {
+        guard let url = url else { return }
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.image = image
+                    }
+                }
+            }
+        }
     }
 }

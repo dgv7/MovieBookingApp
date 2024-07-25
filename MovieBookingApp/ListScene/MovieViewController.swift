@@ -18,6 +18,17 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         view.backgroundColor = .white
         
+        // navigationItem 숨기기
+        self.navigationItem.hidesBackButton = true
+        // rightBarButtonItem 커스텀
+        let rightBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logoutTapped))
+            rightBarButtonItem.tintColor = .systemGray2  // 색상 변경
+            self.navigationItem.rightBarButtonItem = rightBarButtonItem
+        // backBarButtonItem 커스텀
+        let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+            backBarButtonItem.tintColor = .black  // 색상 변경
+            self.navigationItem.backBarButtonItem = backBarButtonItem
+        
         setupSegmentedControl() // Segmented Controller 레이아웃
         setupChildViewControllers() // Segmented Controller 하위 페이지 설정
         updateView()    // Segmented Controller 변경시 페이지 전화
@@ -26,6 +37,13 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         setupTable()
         
         
+    }
+    @objc func logoutTapped() {
+        // 로그아웃 기능 구현할 것인가.. 마이페이지 데이터 값도 초기화되도록 해야함.
+
+
+        // 이전 화면으로 이동
+        navigationController?.popViewController(animated: true)
     }
     // MARK: - yechan add
     private func setupSegmentedControl() {
@@ -51,6 +69,9 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.isHidden = index != 0
         searchViewController.view.isHidden = index != 1
         myPageViewController.view.isHidden = index != 2
+        
+        // 동기화된 선택 인덱스를 각 하위 ViewController로 전달
+        syncSegmentedControl()
     }
     
     private func syncSegmentedControl() {

@@ -16,91 +16,126 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     private let loginButton = UIButton()
     private let signupButton = UIButton()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.backgroundColor = .white
-        self.title = "Login"
-        
-        setupUI()
-    }
-    
-    private func setupUI() {
-        emailTextField.placeholder = "Email"
-        emailTextField.borderStyle = .roundedRect
-        emailTextField.keyboardType = .emailAddress
-        emailTextField.autocapitalizationType = .none
-        emailTextField.translatesAutoresizingMaskIntoConstraints = false
-        emailTextField.delegate = self
-        
-        passwordTextField.placeholder = "Password"
-        passwordTextField.borderStyle = .roundedRect
-        passwordTextField.isSecureTextEntry = true
-        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
-        
-        loginButton.setTitle("Login", for: .normal)
-        loginButton.backgroundColor = .blue
-        loginButton.layer.cornerRadius = 10
-        loginButton.translatesAutoresizingMaskIntoConstraints = false
-        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
-        
-        signupButton.setTitle("Sign Up", for: .normal)
-        signupButton.backgroundColor = .gray
-        signupButton.layer.cornerRadius = 10
-        signupButton.translatesAutoresizingMaskIntoConstraints = false
-        signupButton.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
-        
-        view.addSubview(emailTextField)
-        view.addSubview(passwordTextField)
-        view.addSubview(loginButton)
-        view.addSubview(signupButton)
-        
-        NSLayoutConstraint.activate([
-            emailTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
-            emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            emailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+    private let stackView = UIStackView()
+
+        override func viewDidLoad() {
+            super.viewDidLoad()
             
-            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 20),
-            passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            view.backgroundColor = .white
+            self.title = "Login"
             
-            loginButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 20),
-            loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+//            let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+//                self.navigationItem.backBarButtonItem = backBarButtonItem
+            setupUI()
+        }
+        
+        private func setupUI() {
+            emailTextField.placeholder = "Email을 입력하세요"
+            emailTextField.borderStyle = .roundedRect
+            emailTextField.keyboardType = .emailAddress
+            emailTextField.autocapitalizationType = .none // 자동 대문자 비활성화
+            emailTextField.autocorrectionType = .no // 자동 수정 비활성화
+            emailTextField.spellCheckingType = .no  // 맞춤범 검사 비활성화
+            emailTextField.returnKeyType = .next    // return -> next(다음) 변경
+            emailTextField.clearButtonMode = .always    // 입력내용 삭제 버튼
+            emailTextField.becomeFirstResponder()   // 화면에서 첫번째 반응
+            emailTextField.translatesAutoresizingMaskIntoConstraints = false
+            emailTextField.delegate = self
             
-            signupButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 20),
-            signupButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            signupButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
-        ])
-    }
+            passwordTextField.placeholder = "Password를 입력하세요"
+            passwordTextField.borderStyle = .roundedRect
+            passwordTextField.isSecureTextEntry = true // 보안 입력 활성화
+            passwordTextField.textContentType = .oneTimeCode // 자동 완성 및 강력한 비밀번호 제안 비활성화
+            passwordTextField.autocapitalizationType = .none // 자동 대문자 비활성화
+            passwordTextField.autocorrectionType = .no // 자동 수정 비활성화
+            passwordTextField.spellCheckingType = .no  // 맞춤범 검사 비활성화
+            passwordTextField.returnKeyType = .done    // return -> done(완료) 변경
+            passwordTextField.clearButtonMode = .always    // 입력내용 삭제 버튼
+            passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+            
+            loginButton.setTitle("Login", for: .normal)
+            loginButton.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)
+            loginButton.layer.cornerRadius = 10
+            loginButton.translatesAutoresizingMaskIntoConstraints = false
+            loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+            
+            signupButton.setTitle("Sign Up", for: .normal)
+            signupButton.backgroundColor = .gray
+            signupButton.layer.cornerRadius = 10
+            signupButton.translatesAutoresizingMaskIntoConstraints = false
+            signupButton.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
+            
+            stackView.axis = .vertical
+            stackView.spacing = 20
+            stackView.alignment = .fill
+            stackView.distribution = .equalSpacing
+            stackView.translatesAutoresizingMaskIntoConstraints = false
+            
+            stackView.addArrangedSubview(emailTextField)
+            stackView.addArrangedSubview(passwordTextField)
+            stackView.addArrangedSubview(loginButton)
+            stackView.addArrangedSubview(signupButton)
+            
+            view.addSubview(stackView)
+            
+            NSLayoutConstraint.activate([
+                stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 250),
+                stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+                stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50)
+            ])
+        }
+    // 로그아웃시 입력된 값 초기화
+    override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            emailTextField.text = ""
+            passwordTextField.text = ""
+        }
     
     @objc private func loginButtonTapped() {
-        
         // 입력값 여부 확인
         guard let email = emailTextField.text, !email.isEmpty,
               let password = passwordTextField.text, !password.isEmpty else {
+            showAlert(title: "Error", message: "Email과 Password를 모두 입력해주세요.")
             return
         }
         // 데이터 저장 후 뷰 전환
         if let savedPassword = UserDefaultsManager.shared.getPassword(for: email), savedPassword == password {
-            
-//            UserDefaultsManager.shared.saveCredentials(email: email, password: password, nickname: "nickname")
-            
-//            let myPageVC = MyPageViewController()
-//            myPageVC.email = email
-
             let nextPage = MovieViewController()
             navigationController?.pushViewController(nextPage, animated: true)
         } else {
-            // handle incorrect credentials
-            print("Invalid email or password.")
+            // 이메일이 없거나 비밀번호가 틀린 경우
+            showAlert(title: "Error", message: "없는 계정입니다. 회원가입을 해주세요.")
         }
+    }
+
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     
     @objc private func signupButtonTapped() {
         let signupVC = SignupViewController()
         signupVC.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(signupVC, animated: true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case emailTextField:
+            if emailTextField.text != "" {
+                // 이메일 입력시 패스워드로 자동 이동
+                passwordTextField.becomeFirstResponder()
+            }
+        case passwordTextField:
+            if passwordTextField.text != "" {
+                // 닉네임 입력시 키보드 내림
+                passwordTextField.resignFirstResponder()
+            }
+        default:
+            break
+        }
+        return true
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

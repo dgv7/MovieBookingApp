@@ -31,7 +31,7 @@ class MyPageView: UIView {
     
     let wantedMoviesLabel: UILabel = {
         let label = UILabel()
-        label.text = "보고싶은 영화"
+        label.text = "오늘의 추천 영화"
         return label
     }()
     
@@ -118,24 +118,33 @@ class MyPageView: UIView {
         return button
     }()
     
-    let collectionViewLayout: UICollectionViewFlowLayout = {
+    let bookingCollectionViewLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 100, height: 150)
+        layout.itemSize = CGSize(width: 120, height: 200)
+        layout.minimumInteritemSpacing = 8
+        layout.minimumLineSpacing = 8
+        return layout
+    }()
+    
+    let wantedCollectionViewLayout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 90, height: 150)
         layout.minimumInteritemSpacing = 8
         layout.minimumLineSpacing = 8
         return layout
     }()
     
     lazy var bookingCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: bookingCollectionViewLayout)
         collectionView.backgroundColor = .white
         collectionView.register(MoviePosterCell.self, forCellWithReuseIdentifier: MoviePosterCell.identifier)
         return collectionView
     }()
     
     lazy var wantedMoviesCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: wantedCollectionViewLayout)
         collectionView.backgroundColor = .white
         collectionView.register(MoviePosterCell.self, forCellWithReuseIdentifier: MoviePosterCell.identifier)
         return collectionView
@@ -194,16 +203,16 @@ class MyPageView: UIView {
             bookingLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             
             bookingCollectionView.topAnchor.constraint(equalTo: bookingLabel.bottomAnchor, constant: 8),
-            bookingCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            bookingCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            bookingCollectionView.heightAnchor.constraint(equalToConstant: 150),
+            bookingCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 6),
+            bookingCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 6),
+            bookingCollectionView.heightAnchor.constraint(equalToConstant: 220),
             
             wantedMoviesLabel.topAnchor.constraint(equalTo: bookingCollectionView.bottomAnchor, constant: 32),
             wantedMoviesLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             
             wantedMoviesCollectionView.topAnchor.constraint(equalTo: wantedMoviesLabel.bottomAnchor, constant: 8),
-            wantedMoviesCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            wantedMoviesCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            wantedMoviesCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 6),
+            wantedMoviesCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 6),
             wantedMoviesCollectionView.heightAnchor.constraint(equalToConstant: 150)
         ])
     }

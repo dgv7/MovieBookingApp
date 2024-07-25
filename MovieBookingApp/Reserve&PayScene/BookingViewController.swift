@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class ViewController: UIViewController {
+class BookingViewController: UIViewController {
     var movie: Movie
     let titleLabel = UILabel()
     let dateLabel = UILabel()
@@ -86,13 +86,15 @@ class ViewController: UIViewController {
         view.addSubview(totalPriceLabel)
         
         payButton.setTitle("결제하기", for: .normal)
-        payButton.backgroundColor = UIColor.blue.withAlphaComponent(0.2)
-        payButton.setTitleColor(.black, for: .normal)
+//        payButton.backgroundColor = UIColor.blue.withAlphaComponent(0.2)
+        payButton.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)
+        payButton.layer.cornerRadius = 10
+//        payButton.setTitleColor(.black, for: .normal)
         payButton.addTarget(self, action: #selector(payButtonTapped), for: .touchUpInside)
         view.addSubview(payButton)
         
         selectSeatsButton.setTitle("좌석 선택", for: .normal)
-        selectSeatsButton.backgroundColor = .systemBlue
+        selectSeatsButton.backgroundColor = .systemGray3
         selectSeatsButton.setTitleColor(.white, for: .normal)
         selectSeatsButton.addTarget(self, action: #selector(showSeatSelectionModal), for: .touchUpInside)
         view.addSubview(selectSeatsButton)
@@ -159,9 +161,9 @@ class ViewController: UIViewController {
         }
         
         payButton.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
+            make.bottom.equalTo(view).offset(-60)
+            make.leading.equalTo(view).offset(16)
+            make.trailing.equalTo(view).offset(-16)
             make.height.equalTo(50)
         }
         
@@ -188,8 +190,8 @@ class ViewController: UIViewController {
             dateFormatter.dateStyle = .medium
             dateFormatter.timeStyle = .short
             let selectedDate = dateFormatter.string(from: datePicker.date)
-            selectedDateTimeLabel.text = "선택된 날짜 및 시간: \(selectedDate)" // 선택된 날짜 및 시간 라벨에 설정
-            let alert = UIAlertController(title: "결제 확인", message: "결제를 진행하시겠습니까?\n날짜 및 시간: \(selectedDate)", preferredStyle: .alert)
+//            selectedDateTimeLabel.text = "선택된 날짜 및 시간: \(selectedDate)" // 선택된 날짜 및 시간 라벨에 설정
+            let alert = UIAlertController(title: "결제 확인", message: "결제를 진행하시겠습니까?", preferredStyle: .alert) // \n날짜 및 시간: \(selectedDate)
             let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
                 self.saveBooking(date: selectedDate)
                 // Notification 송신 설정
@@ -229,7 +231,7 @@ class ViewController: UIViewController {
 
         let booking = Booking(
             bookingDate: date,
-            bookingNum: Int.random(in: 1000...9999),
+            bookingNum: Int(peopleStepper.value),
             bookingPrice: Double(peopleStepper.value) * 10000.0,
             bookingSeat: selectedSeats.map { $0.stringRepresentation }.joined(separator: ","),
             movieImage: movie.posterPath ?? "",
@@ -239,11 +241,12 @@ class ViewController: UIViewController {
         UserDefaultsManager.shared.saveBooking(booking)
     }
     
-    func showCompletionAlert(date: String) {
-        let completionAlert = UIAlertController(title: "결제 완료", message: "결제가 완료되었습니다.\n날짜 및 시간: \(date)", preferredStyle: .alert)
+    private func showCompletionAlert(date: String) {
+        let completionAlert = UIAlertController(title: "결제 완료", message: "결제가 완료되었습니다.", preferredStyle: .alert) // \n날짜 및 시간: \(date)
         let okAction = UIAlertAction(title: "확인", style: .default) { _ in
-            _ = MovieViewController()
-            self.navigationController?.popViewController(animated: true)
+            if let movieViewController = self.navigationController?.viewControllers.first(where: { $0 is MovieViewController }) {
+                self.navigationController?.popToViewController(movieViewController, animated: true)
+            }
         }
         completionAlert.addAction(okAction)
         present(completionAlert, animated: true, completion: nil)

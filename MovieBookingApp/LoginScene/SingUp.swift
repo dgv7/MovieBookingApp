@@ -1,13 +1,15 @@
 import UIKit
 
 class SignupViewController: UIViewController, UITextFieldDelegate {
-
+    
     let emailTextField = UITextField()
     let passwordTextField = UITextField()
     let nicknameTextField = UITextField()
     private let signupButton = UIButton()
     private let errorMessageLabel = UILabel()
-
+    
+    private let stackView = UIStackView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -18,25 +20,42 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func setupUI() {
-        emailTextField.placeholder = "Email"
+        emailTextField.placeholder = "Email을 입력하세요"
         emailTextField.borderStyle = .roundedRect
         emailTextField.keyboardType = .emailAddress
-        emailTextField.autocapitalizationType = .none
+        emailTextField.autocapitalizationType = .none // 자동 대문자 비활성화
+        emailTextField.autocorrectionType = .no // 자동 수정 비활성화
+        emailTextField.spellCheckingType = .no  // 맞춤범 검사 비활성화
+        emailTextField.returnKeyType = .next    // return -> next(다음) 변경
+        emailTextField.clearButtonMode = .always    // 입력내용 삭제 버튼
+        emailTextField.becomeFirstResponder()   // 화면에서 첫번째 반응
         emailTextField.translatesAutoresizingMaskIntoConstraints = false
         emailTextField.delegate = self
         
-        passwordTextField.placeholder = "Password"
+        passwordTextField.placeholder = "Password를 입력하세요"
         passwordTextField.borderStyle = .roundedRect
-        passwordTextField.isSecureTextEntry = true
+        passwordTextField.isSecureTextEntry = true // 보안 입력 활성화
+        passwordTextField.textContentType = .oneTimeCode // 자동 완성 및 강력한 비밀번호 제안 비활성화
+        passwordTextField.autocapitalizationType = .none // 자동 대문자 비활성화
+        passwordTextField.autocorrectionType = .no // 자동 수정 비활성화
+        passwordTextField.spellCheckingType = .no  // 맞춤범 검사 비활성화
+        passwordTextField.returnKeyType = .next    // return -> next(다음) 변경
+        passwordTextField.clearButtonMode = .always    // 입력내용 삭제 버튼
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+        passwordTextField.delegate = self
         
-        nicknameTextField.placeholder = "Nickname"
+        nicknameTextField.placeholder = "Nickname을 입력하세요"
         nicknameTextField.borderStyle = .roundedRect
-        nicknameTextField.autocapitalizationType = .none
+        nicknameTextField.autocapitalizationType = .none // 자동 대문자 비활성화
+        nicknameTextField.autocorrectionType = .no // 자동 수정 비활성화
+        nicknameTextField.spellCheckingType = .no  // 맞춤범 검사 비활성화
+        nicknameTextField.returnKeyType = .done    // return -> done(완료) 변경
+        nicknameTextField.clearButtonMode = .always    // 입력내용 삭제 버튼
         nicknameTextField.translatesAutoresizingMaskIntoConstraints = false
+        nicknameTextField.delegate = self
         
         signupButton.setTitle("Sign Up", for: .normal)
-        signupButton.backgroundColor = .blue
+        signupButton.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)
         signupButton.layer.cornerRadius = 10
         signupButton.translatesAutoresizingMaskIntoConstraints = false
         signupButton.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
@@ -46,48 +65,34 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         errorMessageLabel.textAlignment = .center
         errorMessageLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(emailTextField)
-        view.addSubview(passwordTextField)
-        view.addSubview(nicknameTextField)
-        view.addSubview(signupButton)
-        view.addSubview(errorMessageLabel)
+        stackView.axis = .vertical
+        stackView.spacing = 20
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        stackView.addArrangedSubview(emailTextField)
+        stackView.addArrangedSubview(passwordTextField)
+        stackView.addArrangedSubview(nicknameTextField)
+        stackView.addArrangedSubview(signupButton)
+        stackView.addArrangedSubview(errorMessageLabel)
+        
+        view.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            emailTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
-            emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            emailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 20),
-            passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            nicknameTextField.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 20),
-            nicknameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            nicknameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            signupButton.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 20),
-            signupButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            signupButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            errorMessageLabel.topAnchor.constraint(equalTo: signupButton.bottomAnchor, constant: 20),
-            errorMessageLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            errorMessageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 250),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
         ])
     }
     
     @objc private func signupButtonTapped() {
         guard let email = emailTextField.text, !email.isEmpty,
               let password = passwordTextField.text, !password.isEmpty,
-                let nickname = nicknameTextField.text, !nickname.isEmpty else {
-            errorMessageLabel.text = "Email, Password, and Nickname are required."
+              let nickname = nicknameTextField.text, !nickname.isEmpty else {
+            errorMessageLabel.text = "올바른 Email, Password, Nickname을 모두 입력해주세요"
             return
         }
-        
-        if containsKorean(text: email) {
-            errorMessageLabel.text = "Email cannot contain Korean characters."
-            return
-        }
-        
         // Generate UUID
         let userId = UUID()
         
@@ -96,26 +101,42 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         navigationController?.popViewController(animated: true)
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case emailTextField:
+            if emailTextField.text != "" {
+                // 이메일 입력시 패스워드로 자동 이동
+                passwordTextField.becomeFirstResponder()
+            }
+        case passwordTextField:
+            if passwordTextField.text != "" {
+                // 패스워드 입력시 닉네임으로 자동 이동
+                nicknameTextField.becomeFirstResponder()
+            }
+        case nicknameTextField:
+            if nicknameTextField.text != "" {
+                // 닉네임 입력시 키보드 내림
+                nicknameTextField.resignFirstResponder()
+            }
+        default:
+            break
+        }
+        return true
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == emailTextField {
             return isValidEmailCharacter(string)
         }
         return true
     }
-    
+    // 한글 입력 방지
     private func isValidEmailCharacter(_ string: String) -> Bool {
-        if string.rangeOfCharacter(from: CharacterSet(charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@._-").inverted) != nil {
-            return false
-        }
-        return !containsKorean(text: string)
+        let allowedCharacters = CharacterSet(charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@._-")
+        return string.rangeOfCharacter(from: allowedCharacters.inverted) == nil && !containsKorean(string)
     }
-    
-    private func containsKorean(text: String) -> Bool {
-        for scalar in text.unicodeScalars {
-            if (scalar.value >= 0xAC00 && scalar.value <= 0xD7AF) {
-                return true
-            }
-        }
-        return false
+
+    private func containsKorean(_ text: String) -> Bool {
+        return text.rangeOfCharacter(from: CharacterSet(charactersIn: "\u{AC00}"..."\u{D7AF}")) != nil
     }
 }

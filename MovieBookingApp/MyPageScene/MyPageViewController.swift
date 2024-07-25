@@ -17,8 +17,9 @@ class MyPageViewController: UIViewController {
         myPageView.bookingCollectionView.dataSource = self
         myPageView.bookingCollectionView.delegate = self
         myPageView.wantedMoviesCollectionView.dataSource = self
+        myPageView.wantedMoviesCollectionView.delegate = self 
         fetchData()
-
+        
         setupSegmentedControl()
         
         displayUserInfo()
@@ -146,7 +147,7 @@ class MyPageViewController: UIViewController {
             }
         }
     }
-        
+    
     private func setupSegmentedControl() {
         segmentedControl.selectedSegmentIndex = 2
         segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
@@ -187,13 +188,17 @@ class MyPageViewController: UIViewController {
         
         let message = """
         영화 제목: \(booking.movieTitle)
-        예매 날짜: \(booking.bookingDate)
-        예매 번호: \(booking.bookingNum)
+        예매 날짜: \n\(booking.bookingDate)
+        예매 인원: \(booking.bookingNum)명
+        좌석 번호: \(booking.bookingSeat) 열
         예매 가격: \(formattedPrice)원
-        좌석 번호: \(booking.bookingSeat)
         """
-        let alert = UIAlertController(title: "예매 상세 정보", message: message, preferredStyle: .alert)
         
+        let paragraphStyle = NSMutableParagraphStyle()
+        // 왼쪽 정렬
+        paragraphStyle.alignment = .left
+        let attributedMessage = NSAttributedString(string: message, attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
+        let alert = UIAlertController(title: "예매 상세 정보", message: message, preferredStyle: .alert)
         let checkSeatsAction = UIAlertAction(title: "좌석 확인", style: .default) { _ in
             self.showSeatCheckView(seats: booking.bookingSeat)
         }
@@ -205,6 +210,8 @@ class MyPageViewController: UIViewController {
         alert.addAction(checkSeatsAction)
         alert.addAction(cancelAction)
         alert.addAction(closeAction)
+        alert.setValue(attributedMessage, forKey: "attributedMessage")
+        
         present(alert, animated: true, completion: nil)
     }
     
@@ -214,7 +221,7 @@ class MyPageViewController: UIViewController {
         let seatCheckVC = SeatSelectionViewController(peopleCount: seatIndexes.count, selectedSeats: seatIndexes, isPreviewMode: true)
         navigationController?.pushViewController(seatCheckVC, animated: true)
     }
-
+    
     private func cancelBooking(_ booking: Booking) {
         UserDefaultsManager.shared.deleteBooking(booking)
         fetchData()
@@ -268,10 +275,21 @@ extension MyPageViewController: UICollectionViewDataSource {
 
 extension MyPageViewController: UICollectionViewDelegate {
     
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        if collectionView == myPageView.bookingCollectionView {
+//            let booking = viewModel.bookedMovies[indexPath.item]
+//            displayBookingDetails(booking)
+//        }
+//    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == myPageView.bookingCollectionView {
-            let booking = viewModel.bookedMovies[indexPath.item]
-            displayBookingDetails(booking)
+            if collectionView == myPageView.bookingCollectionView {
+                let booking = viewModel.bookedMovies[indexPath.item]
+                displayBookingDetails(booking)
+            } else if collectionView == myPageView.wantedMoviesCollectionView {
+                let movie = viewModel.wantedMovies[indexPath.item]
+                let detailVC = MovieDetailViewController(movie: movie)
+                navigationController?.pushViewController(detailVC, animated: true)
+            }
         }
-    }
 }

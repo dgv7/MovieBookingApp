@@ -29,7 +29,7 @@ class MoviePosterCell: UICollectionViewCell {
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 100),
+//            imageView.heightAnchor.constraint(equalToConstant: 150),
             
             titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -47,7 +47,7 @@ class MoviePosterCell: UICollectionViewCell {
             imageView.setImage(from: url)
         }
         titleLabel.text = booking.movieTitle
-        dateLabel.text = booking.bookingDate
+//        dateLabel.text = booking.bookingDate
     }
     
     func configure(with movie: Movie) {

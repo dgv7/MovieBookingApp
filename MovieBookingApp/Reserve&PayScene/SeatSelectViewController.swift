@@ -29,7 +29,7 @@ class SeatSelectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.9)
         seatCollectionView.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         seatCollectionView.delegate = self
         seatCollectionView.dataSource = self
@@ -37,17 +37,17 @@ class SeatSelectionViewController: UIViewController {
         view.addSubview(seatCollectionView)
         screenLabel.text = "S C R E E N"
         screenLabel.textAlignment = .center
-        screenLabel.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        screenLabel.backgroundColor = UIColor.systemRed.withAlphaComponent(0.7)
         screenLabel.textColor = .white
         view.addSubview(screenLabel)
         screenLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(100)
             make.leading.trailing.equalTo(view).inset(20)
             make.height.equalTo(40)
         }
         seatCollectionView.snp.makeConstraints { make in
             make.leading.trailing.equalTo(view)
-            make.top.equalTo(screenLabel.snp.bottom).offset(20)
+            make.top.equalTo(screenLabel.snp.bottom).offset(70)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-60)
         }
         
@@ -59,7 +59,7 @@ class SeatSelectionViewController: UIViewController {
             doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
             view.addSubview(doneButton)
             doneButton.snp.makeConstraints { make in
-                make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
+                make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-50)
                 make.centerX.equalToSuperview()
                 make.height.equalTo(50)
                 make.width.equalTo(100)
@@ -80,7 +80,7 @@ class SeatSelectionViewController: UIViewController {
     
     @objc func doneButtonTapped() {
         if selectedSeats.count == peopleCount {
-            let selectedSeatsString = selectedSeats.map { $0.stringRepresentation }.joined(separator: ",")
+            _ = selectedSeats.map { $0.stringRepresentation }.joined(separator: ",")
             // 저장하는 로직에 selectedSeatsString 사용
             onSeatsSelected?(selectedSeats)
             dismiss(animated: true, completion: nil)

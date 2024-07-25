@@ -1,10 +1,3 @@
-//
-//  SingUp.swift
-//  MovieBookingApp
-//
-//  Created by t2023-m0119 on 7/22/24.
-//
-
 import UIKit
 
 class SignupViewController: UIViewController, UITextFieldDelegate {
@@ -86,7 +79,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         guard let email = emailTextField.text, !email.isEmpty,
               let password = passwordTextField.text, !password.isEmpty,
                 let nickname = nicknameTextField.text, !nickname.isEmpty else {
-            errorMessageLabel.text = "Email and Password are required."
+            errorMessageLabel.text = "Email, Password, and Nickname are required."
             return
         }
         
@@ -95,8 +88,11 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
+        // Generate UUID
+        let userId = UUID()
+        
         // 회원가입 로직
-        UserDefaultsManager.shared.saveCredentials(email: email, password: password, nickname: nickname)
+        UserDefaultsManager.shared.saveCredentials(email: email, password: password, nickname: nickname, userId: userId)
         navigationController?.popViewController(animated: true)
     }
     

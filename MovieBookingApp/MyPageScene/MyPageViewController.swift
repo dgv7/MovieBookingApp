@@ -2,8 +2,6 @@ import UIKit
 
 class MyPageViewController: UIViewController {
     
-//    var email: String?
-    
     private let myPageView = MyPageView()
     private let viewModel = MyPageViewModel()
     
@@ -16,16 +14,21 @@ class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBindings()
-//        myPageView.bookingCollectionView.delegate = self
-//        myPageView.wantedMoviesCollectionView.delegate = self
         myPageView.bookingCollectionView.dataSource = self
+        myPageView.bookingCollectionView.delegate = self
         myPageView.wantedMoviesCollectionView.dataSource = self
         fetchData()
 
         setupSegmentedControl()
         
         displayUserInfo()
-
+        
+        // Notification 수신 설정
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshBookings), name: Notification.Name("BookingCompleted"), object: nil)
+    }
+    
+    @objc private func refreshBookings() {
+        fetchData()
     }
     
     private func setupBindings() {
@@ -65,12 +68,12 @@ class MyPageViewController: UIViewController {
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(segmentedControl)
         
-        segmentedControl.snp.makeConstraints{
-               $0.centerX.equalToSuperview()
-               $0.top.equalToSuperview().offset(105)
-               $0.leading.equalToSuperview().offset(16)
-               $0.trailing.equalToSuperview().offset(-16)
-             }
+        segmentedControl.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().offset(105)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+        }
     }
     
     @objc private func segmentChanged() {
@@ -83,7 +86,7 @@ class MyPageViewController: UIViewController {
     private func displayUserInfo() {
         if let email = UserDefaultsManager.shared.getEmail(),
            let nickname = UserDefaultsManager.shared.getNickname(for: email) {
-            myPageView.emailValueLabel.text = "\(email)"    // 로그인 email을 기준으로한 nickname 값 가져오기
+            myPageView.emailValueLabel.text = "\(email)"
             myPageView.nameValueLabel.text = "\(nickname)님"
         } else {
             myPageView.emailValueLabel.text = "email 값 없음"
@@ -91,13 +94,38 @@ class MyPageViewController: UIViewController {
         }
     }
     
-    private func displayBookings() {
-        guard let email = UserDefaultsManager.shared.getEmail() else { return }
-        let bookings = UserDefaultsManager.shared.getBookings(for: email)
+    private func displayBookingDetails(_ booking: Booking) {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.maximumFractionDigits = 0
+        let formattedPrice = numberFormatter.string(from: NSNumber(value: booking.bookingPrice)) ?? "\(booking.bookingPrice)"
+        
+        let message = """
+        영화 제목: \(booking.movieTitle)
+        예매 날짜: \(booking.bookingDate)
+        예매 번호: \(booking.bookingNum)
+        예매 가격: \(formattedPrice)원
+        좌석 번호: \(booking.bookingSeat)
+        """
+        let alert = UIAlertController(title: "예매 상세 정보", message: message, preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "예매 취소", style: .destructive) { _ in
+            self.cancelBooking(booking)
+        }
+        let closeAction = UIAlertAction(title: "닫기", style: .cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        alert.addAction(closeAction)
+        present(alert, animated: true, completion: nil)
     }
 
-}
+    private func cancelBooking(_ booking: Booking) {
+        UserDefaultsManager.shared.deleteBooking(booking)
+        fetchData()
+    }
 
+
+}
 
 extension MyPageViewController: UICollectionViewDataSource {
     
@@ -122,15 +150,12 @@ extension MyPageViewController: UICollectionViewDataSource {
     }
 }
 
-//extension MyPageViewController: UICollectionViewDelegate {
-//    
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if collectionView == myPageView.bookingCollectionView {
-//            let booking = viewModel.bookedMovies[indexPath.item]
-//            let detailVC = BookingDetailViewController(booking: booking)
-//            navigationController?.pushViewController(detailVC, animated: true)
-//        } else {
-//            // handle wantedMovies selection if needed
-//        }
-//    }
-//}
+extension MyPageViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == myPageView.bookingCollectionView {
+            let booking = viewModel.bookedMovies[indexPath.item]
+            displayBookingDetails(booking)
+        }
+    }
+}

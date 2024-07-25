@@ -23,7 +23,6 @@ class MyPageViewController: UIViewController {
         
         displayUserInfo()
         
-        // Notification 수신 설정
         NotificationCenter.default.addObserver(self, selector: #selector(refreshBookings), name: Notification.Name("BookingCompleted"), object: nil)
     }
     
@@ -194,19 +193,43 @@ class MyPageViewController: UIViewController {
         """
         let alert = UIAlertController(title: "예매 상세 정보", message: message, preferredStyle: .alert)
         
+        let checkSeatsAction = UIAlertAction(title: "좌석 확인", style: .default) { _ in
+            self.showSeatCheckView(seats: booking.bookingSeat)
+        }
         let cancelAction = UIAlertAction(title: "예매 취소", style: .destructive) { _ in
             self.cancelBooking(booking)
         }
         let closeAction = UIAlertAction(title: "닫기", style: .cancel, handler: nil)
         
+        alert.addAction(checkSeatsAction)
         alert.addAction(cancelAction)
         alert.addAction(closeAction)
         present(alert, animated: true, completion: nil)
+    }
+    
+    private func showSeatCheckView(seats: String) {
+        let seatIndexes = seats.split(separator: ",").compactMap { IndexPath(string: String($0.trimmingCharacters(in: .whitespaces))) }
+        let seatCheckVC = SeatSelectionViewController(peopleCount: seatIndexes.count, selectedSeats: seatIndexes, isPreviewMode: true)
+        navigationController?.pushViewController(seatCheckVC, animated: true)
     }
 
     private func cancelBooking(_ booking: Booking) {
         UserDefaultsManager.shared.deleteBooking(booking)
         fetchData()
+    }
+}
+
+extension IndexPath {
+    init?(string: String) {
+        let components = string.split(separator: "-")
+        guard components.count == 2,
+              let item = Int(components[0]),
+              let section = Int(components[1]) else { return nil }
+        self.init(item: item, section: section)
+    }
+    
+    var stringRepresentation: String {
+        return "\(self.item)-\(self.section)"
     }
 }
 

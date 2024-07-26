@@ -126,6 +126,16 @@ class MyPageViewController: UIViewController {
         myPageView.editPasswordButton.isHidden = false
         myPageView.passwordValueLabel.isHidden = false
     }
+    // 로그아웃시 초기화
+    func clearUserData() {
+            myPageView.emailValueLabel.text = ""
+            myPageView.nameValueLabel.text = ""
+            // 데이터 초기화
+            viewModel.bookedMovies.removeAll()
+            viewModel.wantedMovies.removeAll()
+            myPageView.bookingCollectionView.reloadData()
+            myPageView.wantedMoviesCollectionView.reloadData()
+        }
     
     private func showAlert(message: String) {
         let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)

@@ -40,8 +40,11 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     @objc func logoutTapped() {
         // 로그아웃 기능 구현할 것인가.. 마이페이지 데이터 값도 초기화되도록 해야함.
-
-
+       
+        // 사용자 데이터 초기화
+            myPageViewController.clearUserData()
+            UserDefaultsManager.shared.clearUserData()
+        
         // 이전 화면으로 이동
         navigationController?.popViewController(animated: true)
     }

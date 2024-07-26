@@ -122,4 +122,12 @@ class UserDefaultsManager {
             UserDefaults.standard.set(credentials, forKey: credentialsKey)
         }
     }
+    // 로그아웃시 데이터 read 정보 삭제
+    func clearUserData() {
+            UserDefaults.standard.removeObject(forKey: "email")
+            UserDefaults.standard.removeObject(forKey: "password")
+            UserDefaults.standard.removeObject(forKey: "nickname")
+            UserDefaults.standard.removeObject(forKey: "userId")
+            UserDefaults.standard.synchronize()
+        }
 }

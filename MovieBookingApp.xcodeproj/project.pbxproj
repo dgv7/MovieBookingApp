@@ -69,14 +69,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		ABB37B392C4E69060053FD99 /* ListScene */ = {
+		ABB37B392C4E69060053FD99 /* ListScene(TabBar) */ = {
 			isa = PBXGroup;
 			children = (
 				ABB37B402C4E697A0053FD99 /* MovieViewController.swift */,
 				ABB37B3C2C4E69590053FD99 /* CollectionTableViewCell.swift */,
 				C72BFAFE2C4F322A00D1ABFB /* MovieDetailController.swift */,
 			);
-			path = ListScene;
+			path = "ListScene(TabBar)";
 			sourceTree = "<group>";
 		};
 		C72BFB0A2C4F6F8800D1ABFB /* Network */ = {
@@ -97,13 +97,13 @@
 			path = "Reserve&PayScene";
 			sourceTree = "<group>";
 		};
-		C78E87F22C4FC6CD002B2B64 /* SearchScene */ = {
+		C78E87F22C4FC6CD002B2B64 /* SearchScene(TabBar) */ = {
 			isa = PBXGroup;
 			children = (
 				C72BFB042C4F3A9200D1ABFB /* MovieSearchController.swift */,
 				C72BFB082C4F4A5A00D1ABFB /* MovieCollectionCell.swift */,
 			);
-			path = SearchScene;
+			path = "SearchScene(TabBar)";
 			sourceTree = "<group>";
 		};
 		CA352E212C4E43E50058AB23 /* LoginScene */ = {
@@ -138,9 +138,9 @@
 				DBFA3D062C4E2F7600879D62 /* AppDelegate.swift */,
 				DBFA3D082C4E2F7600879D62 /* SceneDelegate.swift */,
 				CA352E212C4E43E50058AB23 /* LoginScene */,
-				ABB37B392C4E69060053FD99 /* ListScene */,
-				C78E87F22C4FC6CD002B2B64 /* SearchScene */,
-				DBFA3D1D2C4E6D6600879D62 /* MyPageScene */,
+				ABB37B392C4E69060053FD99 /* ListScene(TabBar) */,
+				C78E87F22C4FC6CD002B2B64 /* SearchScene(TabBar) */,
+				DBFA3D1D2C4E6D6600879D62 /* MyPageScene(TabBar) */,
 				C776327F2C51E4200056062E /* Reserve&PayScene */,
 				C72BFB0A2C4F6F8800D1ABFB /* Network */,
 				DBFA3D122C4E2F7700879D62 /* Assets.xcassets */,
@@ -151,7 +151,7 @@
 			path = MovieBookingApp;
 			sourceTree = "<group>";
 		};
-		DBFA3D1D2C4E6D6600879D62 /* MyPageScene */ = {
+		DBFA3D1D2C4E6D6600879D62 /* MyPageScene(TabBar) */ = {
 			isa = PBXGroup;
 			children = (
 				DBFA3D202C4EA7F600879D62 /* MyPageView.swift */,
@@ -159,7 +159,7 @@
 				DBFA3D242C4EA99100879D62 /* MyPageViewModel.swift */,
 				DBFA3D222C4EA8E800879D62 /* MoviePosterCell.swift */,
 			);
-			path = MyPageScene;
+			path = "MyPageScene(TabBar)";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -98,6 +98,8 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         
         // 회원가입 로직
         UserDefaultsManager.shared.saveCredentials(email: email, password: password, nickname: nickname, userId: userId)
+        // 로그인된 사용자 정보 저장
+        UserDefaultsManager.shared.setCurrentUserEmail(email: email)
         navigationController?.popViewController(animated: true)
     }
     

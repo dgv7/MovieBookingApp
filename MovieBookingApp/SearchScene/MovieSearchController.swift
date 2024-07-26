@@ -17,6 +17,7 @@ class MovieSearchController: UIViewController, UISearchBarDelegate, UICollection
     var filteredMovies: [Movie] = []
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -72,6 +73,7 @@ class MovieSearchController: UIViewController, UISearchBarDelegate, UICollection
         searchBar.layer.shadowRadius = 8
         searchBar.layer.masksToBounds = false
         searchBar.layer.shouldRasterize = false
+        
         if let tf = searchBar.value(forKey: "searchField") as? UITextField {
             if let leftView = tf.leftView as? UIImageView {
                 leftView.tintColor = .red
@@ -158,7 +160,6 @@ class MovieSearchController: UIViewController, UISearchBarDelegate, UICollection
         let movie = filteredMovies[indexPath.item]
         cell.titleLabel.text = movie.title
         
-        // Load image asynchronously
         if let posterPath = movie.posterPath {
             let imageUrlString = "https://image.tmdb.org/t/p/w500\(posterPath)"
             if let imageUrl = URL(string: imageUrlString) {

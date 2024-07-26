@@ -23,9 +23,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             
             view.backgroundColor = .white
             self.title = "Login"
-            
-//            let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-//                self.navigationItem.backBarButtonItem = backBarButtonItem
             setupUI()
         }
         

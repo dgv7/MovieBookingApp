@@ -40,10 +40,10 @@ class MovieDetailViewController: UIViewController {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         titleLabel.font = UIFont.boldSystemFont(ofSize: 24)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-
+        
         overviewLabel.font = UIFont.systemFont(ofSize: 16)
         overviewLabel.numberOfLines = 0
         overviewLabel.translatesAutoresizingMaskIntoConstraints = false

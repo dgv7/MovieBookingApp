@@ -2,6 +2,7 @@ import UIKit
 import SnapKit
 
 class BookingViewController: UIViewController {
+    
     var movie: Movie
     let titleLabel = UILabel()
     let dateLabel = UILabel()
@@ -19,6 +20,7 @@ class BookingViewController: UIViewController {
     let reserveMoveNameLabel = UILabel()
     let dateStackView = UIStackView()
     let peopleStackView = UIStackView()
+    
     var selectedSeats = [IndexPath]() {
         didSet {
             updateSelectedSeatsLabel()
@@ -86,10 +88,8 @@ class BookingViewController: UIViewController {
         view.addSubview(totalPriceLabel)
         
         payButton.setTitle("결제하기", for: .normal)
-//        payButton.backgroundColor = UIColor.blue.withAlphaComponent(0.2)
         payButton.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)
         payButton.layer.cornerRadius = 10
-//        payButton.setTitleColor(.black, for: .normal)
         payButton.addTarget(self, action: #selector(payButtonTapped), for: .touchUpInside)
         view.addSubview(payButton)
         
@@ -180,6 +180,7 @@ class BookingViewController: UIViewController {
     }
     
     @objc func payButtonTapped() {
+        
         if selectedSeats.isEmpty {
             let alert = UIAlertController(title: "좌석 선택 필요", message: "좌석을 선택하십시오.", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
@@ -190,8 +191,8 @@ class BookingViewController: UIViewController {
             dateFormatter.dateStyle = .medium
             dateFormatter.timeStyle = .short
             let selectedDate = dateFormatter.string(from: datePicker.date)
-//            selectedDateTimeLabel.text = "선택된 날짜 및 시간: \(selectedDate)" // 선택된 날짜 및 시간 라벨에 설정
-            let alert = UIAlertController(title: "결제 확인", message: "결제를 진행하시겠습니까?", preferredStyle: .alert) // \n날짜 및 시간: \(selectedDate)
+
+            let alert = UIAlertController(title: "결제 확인", message: "결제를 진행하시겠습니까?", preferredStyle: .alert)
             let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
                 self.saveBooking(date: selectedDate)
                 // Notification 송신 설정
@@ -207,6 +208,7 @@ class BookingViewController: UIViewController {
 
     
     @objc func showSeatSelectionModal() {
+        
         let peopleCount = Int(peopleStepper.value)
         let seatSelectionVC = SeatSelectionViewController(peopleCount: peopleCount) { [weak self] selectedSeats in
             if selectedSeats.count == peopleCount {
@@ -242,7 +244,7 @@ class BookingViewController: UIViewController {
     }
     
     private func showCompletionAlert(date: String) {
-        let completionAlert = UIAlertController(title: "결제 완료", message: "결제가 완료되었습니다.", preferredStyle: .alert) // \n날짜 및 시간: \(date)
+        let completionAlert = UIAlertController(title: "결제 완료", message: "결제가 완료되었습니다.", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default) { _ in
             if let movieViewController = self.navigationController?.viewControllers.first(where: { $0 is MovieViewController }) {
                 self.navigationController?.popToViewController(movieViewController, animated: true)
@@ -255,7 +257,7 @@ class BookingViewController: UIViewController {
     private func configureUI(with movie: Movie) {
         let imageUrl = URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "")")
         imageView.setImage(from: imageUrl)
-        reserveMoveNameLabel.text = "영화명: \(movie.title)"
+        reserveMoveNameLabel.text = "\(movie.title)"
     }
     
     private func updateSelectedSeatsLabel() {

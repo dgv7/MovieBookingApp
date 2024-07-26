@@ -106,8 +106,8 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 10),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 6),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -6),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         

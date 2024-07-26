@@ -170,6 +170,7 @@ class MyPageViewController: UIViewController {
     }
     
     private func displayUserInfo() {
+        
         if let email = UserDefaultsManager.shared.getEmail(),
            let nickname = UserDefaultsManager.shared.getNickname(for: email) {
             myPageView.emailValueLabel.text = email
@@ -181,6 +182,7 @@ class MyPageViewController: UIViewController {
     }
     
     private func displayBookingDetails(_ booking: Booking) {
+        
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         numberFormatter.maximumFractionDigits = 0
@@ -217,9 +219,9 @@ class MyPageViewController: UIViewController {
     
     private func showSeatCheckView(seats: String) {
         let seatIndexes = seats.split(separator: ",").compactMap { IndexPath(seatString: String($0.trimmingCharacters(in: .whitespaces))) }
-        print("좌석 정보: \(seatIndexes)") // 로그로 확인하기
         let seatCheckVC = SeatSelectionViewController(peopleCount: seatIndexes.count, selectedSeats: seatIndexes, isPreviewMode: true)
-        navigationController?.pushViewController(seatCheckVC, animated: true)
+//        navigationController?.pushViewController(seatCheckVC, animated: true)
+        self.present(seatCheckVC, animated: true, completion: nil)
     }
     
     private func cancelBooking(_ booking: Booking) {
@@ -274,13 +276,6 @@ extension MyPageViewController: UICollectionViewDataSource {
 }
 
 extension MyPageViewController: UICollectionViewDelegate {
-    
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if collectionView == myPageView.bookingCollectionView {
-//            let booking = viewModel.bookedMovies[indexPath.item]
-//            displayBookingDetails(booking)
-//        }
-//    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             if collectionView == myPageView.bookingCollectionView {

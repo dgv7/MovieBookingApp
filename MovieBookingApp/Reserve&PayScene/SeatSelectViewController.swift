@@ -2,6 +2,7 @@ import UIKit
 import SnapKit
 
 class SeatSelectionViewController: UIViewController {
+    
     let seatCollectionView: UICollectionView
     let peopleCount: Int
     var selectedSeats: [IndexPath]
@@ -28,6 +29,7 @@ class SeatSelectionViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.9)
         seatCollectionView.backgroundColor = UIColor.black.withAlphaComponent(0.7)
@@ -40,11 +42,13 @@ class SeatSelectionViewController: UIViewController {
         screenLabel.backgroundColor = UIColor.systemRed.withAlphaComponent(0.7)
         screenLabel.textColor = .white
         view.addSubview(screenLabel)
+        
         screenLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(100)
             make.leading.trailing.equalTo(view).inset(20)
             make.height.equalTo(40)
         }
+        
         seatCollectionView.snp.makeConstraints { make in
             make.leading.trailing.equalTo(view)
             make.top.equalTo(screenLabel.snp.bottom).offset(70)
@@ -52,12 +56,14 @@ class SeatSelectionViewController: UIViewController {
         }
         
         if !isPreviewMode {
+            
             let doneButton = UIButton()
             doneButton.setTitle("완료", for: .normal)
             doneButton.backgroundColor = .systemBlue
             doneButton.setTitleColor(.white, for: .normal)
             doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
             view.addSubview(doneButton)
+            
             doneButton.snp.makeConstraints { make in
                 make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-50)
                 make.centerX.equalToSuperview()
@@ -71,6 +77,7 @@ class SeatSelectionViewController: UIViewController {
         closeButton.setTitleColor(.white, for: .normal)
         closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         view.addSubview(closeButton)
+        
         closeButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
             make.trailing.equalTo(view.safeAreaLayoutGuide).offset(-10)
@@ -79,6 +86,7 @@ class SeatSelectionViewController: UIViewController {
     }
     
     @objc func doneButtonTapped() {
+        
         if selectedSeats.count == peopleCount {
             _ = selectedSeats.map { $0.stringRepresentation }.joined(separator: ",")
             // 저장하는 로직에 selectedSeatsString 사용

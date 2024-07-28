@@ -38,7 +38,8 @@ class MovieSearchController: UIViewController, UISearchBarDelegate, UICollection
         self.title = "Search"
         view.backgroundColor = .white
         
-        setupSegmentedControl()
+        setupSegmentedControl() // Segmented Controller 레이아웃 및 로직 세팅
+        
         setupSearchBar()
         setupCollectionView()
         
@@ -59,6 +60,13 @@ class MovieSearchController: UIViewController, UISearchBarDelegate, UICollection
              }
     }
     
+    @objc private func segmentChanged() {
+        if let parentVC = parent as? MovieViewController {
+            parentVC.segmentedControl.selectedSegmentIndex = segmentedControl.selectedSegmentIndex
+            parentVC.updateView()
+        }
+    }
+    
     private func setupSearchBar() {
         
         searchBar.placeholder = "영화를 검색해보세요"
@@ -74,6 +82,7 @@ class MovieSearchController: UIViewController, UISearchBarDelegate, UICollection
         searchBar.layer.masksToBounds = false
         searchBar.layer.shouldRasterize = false
         
+        // 검색 필터 icon 커스텀
         if let tf = searchBar.value(forKey: "searchField") as? UITextField {
             if let leftView = tf.leftView as? UIImageView {
                 leftView.tintColor = .red
@@ -105,14 +114,9 @@ class MovieSearchController: UIViewController, UISearchBarDelegate, UICollection
         ])
     }
     
-    @objc private func segmentChanged() {
-        if let parentVC = parent as? MovieViewController {
-            parentVC.segmentedControl.selectedSegmentIndex = segmentedControl.selectedSegmentIndex
-            parentVC.updateView()
-        }
-    }
     
-    // MARK: - 이부분은 MovieViewController와 충돌남.. 코드 수정 필요
+    
+    // MARK: -
     private func fetchAllMovies() {
         let apiKey = "a03d4de69feac73d515284c317000504"
         let urlString = "https://api.themoviedb.org/3/movie/popular?api_key=\(apiKey)&language=en-US&page=1"

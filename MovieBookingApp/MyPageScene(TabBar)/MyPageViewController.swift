@@ -13,29 +13,23 @@ class MyPageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupBindings()
-        myPageView.bookingCollectionView.dataSource = self
-        myPageView.bookingCollectionView.delegate = self
-        myPageView.wantedMoviesCollectionView.dataSource = self
-        myPageView.wantedMoviesCollectionView.delegate = self 
+        setupSegmentedControl()
         fetchData()
         
-        setupSegmentedControl()
-        
+                
         displayUserInfo()
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshBookings), name: Notification.Name("BookingCompleted"), object: nil)
     }
-    
-    @objc private func refreshBookings() {
-        fetchData()
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: Notification.Name("BookingCompleted"), object: nil)
-    }
-    
+// MARK: - MyPage Edit & Save settings
     private func setupBindings() {
+        myPageView.bookingCollectionView.dataSource = self
+        myPageView.bookingCollectionView.delegate = self
+        myPageView.wantedMoviesCollectionView.dataSource = self
+        myPageView.wantedMoviesCollectionView.delegate = self
+        
         myPageView.editNameButton.addTarget(self, action: #selector(editName), for: .touchUpInside)
         myPageView.editEmailButton.addTarget(self, action: #selector(editEmail), for: .touchUpInside)
         myPageView.editPasswordButton.addTarget(self, action: #selector(editPassword), for: .touchUpInside)
@@ -126,38 +120,7 @@ class MyPageViewController: UIViewController {
         myPageView.editPasswordButton.isHidden = false
         myPageView.passwordValueLabel.isHidden = false
     }
-    // 로그아웃시 초기화
-    func clearUserData() {
-            myPageView.emailValueLabel.text = ""
-            myPageView.nameValueLabel.text = ""
-            // 데이터 초기화
-            viewModel.bookedMovies.removeAll()
-            viewModel.wantedMovies.removeAll()
-            myPageView.bookingCollectionView.reloadData()
-            myPageView.wantedMoviesCollectionView.reloadData()
-        }
-    
-    private func showAlert(message: String) {
-        let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
-    }
-    
-    private func fetchData() {
-        guard let userId = UserDefaultsManager.shared.getCurrentUserId() else { return }
-        viewModel.fetchBookedMovies(for: userId) {
-            DispatchQueue.main.async {
-                self.myPageView.bookingCollectionView.reloadData()
-            }
-        }
-        viewModel.fetchWantedMovies {
-            DispatchQueue.main.async {
-                self.myPageView.wantedMoviesCollectionView.reloadData()
-            }
-        }
-    }
-    
+// MARK: - segmented controller
     private func setupSegmentedControl() {
         segmentedControl.selectedSegmentIndex = 2
         segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
@@ -177,6 +140,49 @@ class MyPageViewController: UIViewController {
             parentVC.segmentedControl.selectedSegmentIndex = segmentedControl.selectedSegmentIndex
             parentVC.updateView()
         }
+    }
+// MARK: - fetchData
+    private func fetchData() {
+        guard let userId = UserDefaultsManager.shared.getCurrentUserId() else { return }
+        viewModel.fetchBookedMovies(for: userId) {
+            DispatchQueue.main.async {
+                self.myPageView.bookingCollectionView.reloadData()
+            }
+        }
+        viewModel.fetchWantedMovies {
+            DispatchQueue.main.async {
+                self.myPageView.wantedMoviesCollectionView.reloadData()
+            }
+        }
+    }
+    
+    @objc private func refreshBookings() {
+        fetchData()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: Notification.Name("BookingCompleted"), object: nil)
+    }
+    
+    
+    
+    
+    // 로그아웃시 초기화 -> 아직 구현 안됨.. 개발중 -> displayUserInfo과 관련이 있는가?
+    func clearUserData() {
+        myPageView.emailValueLabel.text = ""
+        myPageView.nameValueLabel.text = ""
+        // 데이터 초기화
+        viewModel.bookedMovies.removeAll()
+        viewModel.wantedMovies.removeAll()
+        myPageView.bookingCollectionView.reloadData()
+        myPageView.wantedMoviesCollectionView.reloadData()
+    }
+    
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
     }
     
     private func displayUserInfo() {
@@ -230,7 +236,6 @@ class MyPageViewController: UIViewController {
     private func showSeatCheckView(seats: String) {
         let seatIndexes = seats.split(separator: ",").compactMap { IndexPath(seatString: String($0.trimmingCharacters(in: .whitespaces))) }
         let seatCheckVC = SeatSelectionViewController(peopleCount: seatIndexes.count, selectedSeats: seatIndexes, isPreviewMode: true)
-//        navigationController?.pushViewController(seatCheckVC, animated: true)
         self.present(seatCheckVC, animated: true, completion: nil)
     }
     

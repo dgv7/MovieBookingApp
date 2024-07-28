@@ -48,12 +48,13 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         // 이전 화면으로 이동
         navigationController?.popViewController(animated: true)
     }
-    // MARK: - yechan add
+    // MARK: - yc: segmented controller settings
     private func setupSegmentedControl() {
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(segmentedControl)
+        
         segmentedControl.snp.makeConstraints{
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(105)
@@ -64,7 +65,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     @objc private func segmentChanged() {
         updateView()
-        syncSegmentedControl()
+//        syncSegmentedControl()
     }
     
     func updateView() {
@@ -81,7 +82,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         searchViewController.segmentedControl.selectedSegmentIndex = segmentedControl.selectedSegmentIndex
         myPageViewController.segmentedControl.selectedSegmentIndex = segmentedControl.selectedSegmentIndex
     }
-    
+    // 상속관계 설정
     private func setupChildViewControllers() {
         addChild(searchViewController)
         addChild(myPageViewController)
@@ -98,6 +99,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         searchViewController.view.isHidden = true
         myPageViewController.view.isHidden = true
     }
+// MARK: -
     
     private func setupTable() {
         tableView.dataSource = self
